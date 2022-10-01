@@ -1,0 +1,54 @@
+{
+    "name": "gomzyakov/payture",
+    "description": "PHP client to Payture InPay API",
+    "type": "package",
+    "license": "MIT",
+    "keywords": [
+        "payture",
+        "php",
+        "api-client",
+        "payments",
+        "php-client",
+        "payture-api",
+        "payture-inpay-client",
+        "payture-inpay"
+    ],
+    "homepage": "https://github.com/gomzyakov/payture",
+    "authors": [
+        {
+            "name": "Alexander Gomzyakov",
+            "email": "alexander.gomzyakov@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.8",
+        "phpunit/phpunit": "^9.5",
+        "phpstan/phpstan": "^1.8",
+        "mockery/mockery": "^1.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gomzyakov\\CS\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "cs-fix": "@php ./vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php",
+        "cs-check": "@php ./vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --dry-run",
+        "phpstan": "@php ./vendor/bin/phpstan analyze -c ./phpstan.neon.dist --no-progress --ansi",
+        "phpunit": "@php ./vendor/bin/phpunit ./tests --no-coverage --color=always",
+        "test": [
+            "@cs-check",
+            "@phpstan",
+            "@phpunit"
+        ]
+    }
+}
