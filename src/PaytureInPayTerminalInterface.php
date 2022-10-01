@@ -27,12 +27,14 @@ interface PaytureInPayTerminalInterface
     /**
      * @see https://payture.com/api#inpay_init_
      *
-     * @param string $orderId Payment ID in Merchant system
-     * @param int $amount Payment amount
-     * @param string $clientIp User IP address
-     * @param string $url back URL
-     * @param string $templateTag Used template tag. If empty string - no template tag will be passed
-     * @param array $extra Payture none requirement extra fields
+     * @param string      $orderId     Payment ID in Merchant system
+     * @param int         $amount      Payment amount
+     * @param string      $clientIp    User IP address
+     * @param string      $url         back URL
+     * @param string      $templateTag Used template tag. If empty string - no template tag will be passed
+     * @param array       $extra       Payture none requirement extra fields
+     * @param SessionType $sessionType
+     * @param string      $product
      *
      * @throws TransportException
      */
@@ -53,7 +55,7 @@ interface PaytureInPayTerminalInterface
      * @see https://payture.com/api#inpay_unblock_
      *
      * @param string $orderId Payment ID in Merchant system
-     * @param int $amount Amount in kopecks that is to be returned
+     * @param int    $amount  Amount in kopecks that is to be returned
      *
      * @throws TransportException
      */
@@ -63,7 +65,7 @@ interface PaytureInPayTerminalInterface
      * @see https://payture.com/api#inpay_charge_
      *
      * @param string $orderId Payment ID in Merchant system
-     * @param int $amount Charging amount in kopecks
+     * @param int    $amount  Charging amount in kopecks
      *
      * @throws TransportException
      */
@@ -75,7 +77,7 @@ interface PaytureInPayTerminalInterface
      * @see https://payture.com/api#inpay_refund_
      *
      * @param string $orderId Payment ID in Merchant system
-     * @param int $amount Amount in kopecks that is to be returned
+     * @param int    $amount  Amount in kopecks that is to be returned
      *
      * @throws TransportException
      */

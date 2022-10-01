@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class PaytureOperationTest extends TestCase
 {
-    public function testToStringReturnsOperationName(): void
+    public function test_to_string_returns_operation_name(): void
     {
         $operation = PaytureOperation::INIT();
         self::assertSame('Init', (string) $operation);

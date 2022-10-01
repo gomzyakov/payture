@@ -4,16 +4,26 @@ namespace Gomzyakov\Payture\InPayClient\GuzzleHttp;
 
 use GuzzleHttp\RequestOptions;
 use Gomzyakov\Payture\InPayClient\PaytureOperation;
+use ReflectionClass;
+use ReflectionException;
+use InvalidArgumentException;
+
+use function count;
 
 final class GuzzleHttpOptionsBag
 {
     private static $requestOptions;
+
     private static $operations;
 
-    /** @var array[] */
+    /**
+     * @var array[]
+     */
     private $optionsPerOperation;
 
-    /** @var array */
+    /**
+     * @var array
+     */
     private $options;
 
     public function __construct(array $options = [], array $optionsPerOperation = [])
@@ -21,8 +31,16 @@ final class GuzzleHttpOptionsBag
         $this->assertOptionsPerOperation($optionsPerOperation);
         $this->assertOptions($options);
 
-        $this->options = $options;
+        $this->options             = $options;
         $this->optionsPerOperation = $optionsPerOperation;
+    }
+
+    public function getOperationOptions(PaytureOperation $operation): array
+    {
+        return array_merge(
+            $this->options,
+            $this->optionsPerOperation[(string) $operation] ?? []
+        );
     }
 
     /**
@@ -48,9 +66,9 @@ final class GuzzleHttpOptionsBag
     {
         if (self::$requestOptions === null) {
             try {
-                self::$requestOptions = (new \ReflectionClass(RequestOptions::class))->getConstants();
+                self::$requestOptions = (new ReflectionClass(RequestOptions::class))->getConstants();
                 //@codeCoverageIgnoreStart
-            } catch (\ReflectionException $e) {
+            } catch (ReflectionException $e) {
                 trigger_error('PaytureClient requires ' . RequestOptions::class . ' to be available for auto-loading');
 
                 self::$requestOptions = [];
@@ -62,16 +80,10 @@ final class GuzzleHttpOptionsBag
         return self::$requestOptions;
     }
 
-    public function getOperationOptions(PaytureOperation $operation): array
-    {
-        return array_merge(
-            $this->options,
-            $this->optionsPerOperation[(string) $operation] ?? []
-        );
-    }
-
     /**
      * Assert that client options are correct.
+     *
+     * @param array $options
      */
     private function assertOptions(array $options): void
     {
@@ -84,18 +96,25 @@ final class GuzzleHttpOptionsBag
 
     /**
      * Assert that fields include only valid.
+     *
+     * @param array  $fields
+     * @param array  $validFields
+     * @param string $message
      */
     private function assertValidFields(array $fields, array $validFields, string $message): void
     {
         $invalidFields = array_diff($fields, $validFields);
-        if (!\count($invalidFields)) {
+        if (! count($invalidFields)) {
             return;
         }
-        throw new \InvalidArgumentException(sprintf($message, implode(', ', $invalidFields)));
+
+        throw new InvalidArgumentException(sprintf($message, implode(', ', $invalidFields)));
     }
 
     /**
      * Assert that options per operations have correct options and operations.
+     *
+     * @param array $optionsPerOperation
      */
     private function assertOptionsPerOperation(array $optionsPerOperation): void
     {

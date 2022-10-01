@@ -3,6 +3,8 @@
 namespace Gomzyakov\Payture\InPayClient;
 
 use Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException;
+use SimpleXMLElement;
+use LogicException;
 
 /**
  * @internal
@@ -10,6 +12,9 @@ use Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException;
 final class TerminalResponseBuilder
 {
     /**
+     * @param string           $transportResponse
+     * @param PaytureOperation $operation
+     *
      * @throws InvalidResponseException
      */
     public static function parseTransportResponse(
@@ -18,7 +23,7 @@ final class TerminalResponseBuilder
     ): TerminalResponse {
         $attributes = self::parseAttributesFromXmlResponse($transportResponse, self::mapOperationToRootNode($operation));
 
-        if (!isset($attributes['Success'])) {
+        if (! isset($attributes['Success'])) {
             throw InvalidResponseException::becauseUndefinedSuccessAttribute();
         }
 
@@ -52,15 +57,18 @@ final class TerminalResponseBuilder
     }
 
     /**
+     * @param string $xml
+     * @param string $operation
+     *
      * @throws InvalidResponseException
      */
     private static function parseAttributesFromXmlResponse(string $xml, string $operation): array
     {
         $oldUseInternalXmlErrors = libxml_use_internal_errors(true);
-        $rootNode = simplexml_load_string($xml);
+        $rootNode                = simplexml_load_string($xml);
         libxml_use_internal_errors($oldUseInternalXmlErrors);
 
-        if (!$rootNode instanceof \SimpleXMLElement) {
+        if (! $rootNode instanceof SimpleXMLElement) {
             throw InvalidResponseException::becauseInvalidXML();
         }
 
@@ -70,7 +78,7 @@ final class TerminalResponseBuilder
 
         $data = (array) $rootNode;
 
-        if (!isset($data['@attributes'])) {
+        if (! isset($data['@attributes'])) {
             throw InvalidResponseException::becauseEmptyAttributes();
         }
 
@@ -95,7 +103,7 @@ final class TerminalResponseBuilder
         }
 
         //@codeCoverageIgnoreStart
-        throw new \LogicException('Unknown operation');
+        throw new LogicException('Unknown operation');
         //@codeCoverageIgnoreEnd
     }
 }

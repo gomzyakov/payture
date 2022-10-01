@@ -15,11 +15,11 @@ final class TwoStepPaymentTerminalTest extends AbstractTerminalTestCase
     /**
      * Keep the test suite with deprecated payStatus.
      */
-    public function testPaytureInPayApiWithPayStatus(): void
+    public function test_payture_in_pay_api_with_pay_status(): void
     {
         $orderId = self::generateOrderId();
 
-        $response = $this->initPayment($orderId);
+        $response  = $this->initPayment($orderId);
         $sessionId = $response->getSessionId();
 
         $response = $this->getTerminal()->payStatus($orderId);
@@ -43,11 +43,11 @@ final class TwoStepPaymentTerminalTest extends AbstractTerminalTestCase
         self::assertNotEmpty($response->getRrn());
     }
 
-    public function testPaytureInPayApi(): void
+    public function test_payture_in_pay_api(): void
     {
         $orderId = self::generateOrderId();
 
-        $response = $this->initPayment($orderId);
+        $response  = $this->initPayment($orderId);
         $sessionId = $response->getSessionId();
 
         $url = $this->getTerminal()->createPaymentUrl($sessionId);

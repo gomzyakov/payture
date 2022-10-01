@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class TerminalResponseTest extends TestCase
 {
-    public function testSettersAndGetters(): void
+    public function test_setters_and_getters(): void
     {
         $response = new TerminalResponse('True', 'Ord-123');
         self::assertTrue($response->isSuccess());
@@ -33,7 +33,7 @@ final class TerminalResponseTest extends TestCase
         self::assertEquals('003770024290', $response->getRrn());
     }
 
-    public function testStateAccessors(): void
+    public function test_state_accessors(): void
     {
         $response = new TerminalResponse('True', 'Ord-123');
 
@@ -65,7 +65,7 @@ final class TerminalResponseTest extends TestCase
         self::assertTrue($response->isErrorState());
     }
 
-    public function testErrorCodeAccessorsForSuccessfulResponse(): void
+    public function test_error_code_accessors_for_successful_response(): void
     {
         $response = new TerminalResponse('True', 'Ord-123');
 
@@ -76,7 +76,7 @@ final class TerminalResponseTest extends TestCase
         self::assertTrue($response->isAmountError());
     }
 
-    public function testErrorCodeAccessorsForFailedResponse(): void
+    public function test_error_code_accessors_for_failed_response(): void
     {
         $response = new TerminalResponse('False', 'Ord-123');
 

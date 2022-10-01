@@ -15,9 +15,13 @@ final class TerminalResponseBuilderTest extends TestCase
     /**
      * @dataProvider getValidResponseExamples
      *
+     * @param string           $xml
+     * @param PaytureOperation $operation
+     * @param bool             $success
+     *
      * @throws \Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException
      */
-    public function testBuilderParsesXmlStringIntoResponse(
+    public function test_builder_parses_xml_string_into_response(
         string $xml,
         PaytureOperation $operation,
         bool $success
@@ -81,14 +85,16 @@ final class TerminalResponseBuilderTest extends TestCase
     /**
      * @dataProvider getPopulatedFieldExamples
      *
-     * @param mixed $expectedValue
+     * @param mixed  $expectedValue
+     * @param string $xml
+     * @param string $accessMethod
      *
      * @throws \Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException
      */
-    public function testBuilderPopulatesResponseFields(string $xml, string $accessMethod, $expectedValue): void
+    public function test_builder_populates_response_fields(string $xml, string $accessMethod, $expectedValue): void
     {
         $response = TerminalResponseBuilder::parseTransportResponse($xml, PaytureOperation::CHARGE());
-        self::assertEquals($expectedValue, $response->$accessMethod());
+        self::assertEquals($expectedValue, $response->{$accessMethod}());
     }
 
     public function getPopulatedFieldExamples(): array
@@ -130,7 +136,7 @@ final class TerminalResponseBuilderTest extends TestCase
     /**
      * @expectedException \Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException
      */
-    public function testBuilderThrowsExceptionForInvalidXml(): void
+    public function test_builder_throws_exception_for_invalid_xml(): void
     {
         TerminalResponseBuilder::parseTransportResponse('Definitely not an XML string', PaytureOperation::INIT());
     }
@@ -138,7 +144,7 @@ final class TerminalResponseBuilderTest extends TestCase
     /**
      * @expectedException \Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException
      */
-    public function testBuilderThrowsExceptionForOperationMismatch(): void
+    public function test_builder_throws_exception_for_operation_mismatch(): void
     {
         TerminalResponseBuilder::parseTransportResponse('<Charge Success="True"/>', PaytureOperation::INIT());
     }
@@ -146,7 +152,7 @@ final class TerminalResponseBuilderTest extends TestCase
     /**
      * @expectedException \Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException
      */
-    public function testBuildThrowsExceptionIfNoAttributeDefined(): void
+    public function test_build_throws_exception_if_no_attribute_defined(): void
     {
         TerminalResponseBuilder::parseTransportResponse('<Charge/>', PaytureOperation::CHARGE());
     }
@@ -154,7 +160,7 @@ final class TerminalResponseBuilderTest extends TestCase
     /**
      * @expectedException \Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException
      */
-    public function testBuildThrowsExceptionIfNoSuccessAttributeDefined(): void
+    public function test_build_throws_exception_if_no_success_attribute_defined(): void
     {
         TerminalResponseBuilder::parseTransportResponse('<Charge Amount="10000"/>', PaytureOperation::CHARGE());
     }

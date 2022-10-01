@@ -10,38 +10,29 @@ use Gomzyakov\Payture\InPayClient\TerminalConfiguration;
 use Gomzyakov\Payture\InPayClient\TestUtils\Card;
 use Gomzyakov\Payture\InPayClient\TestUtils\PaymentHelper;
 use PHPUnit\Framework\TestCase;
+use DateTime;
+use Exception;
+use RuntimeException;
 
 abstract class AbstractTerminalTestCase extends TestCase
 {
-    private const ENV_KEY = 'PAYTURE_TEST_MERCHANT_KEY';
-    private const ENV_PASSWORD = 'PAYTURE_TEST_MERCHANT_PASSWORD';
-
     protected const SANDBOX_PAY_SUBMIT_URL = 'https://sandbox.payture.com/apim/PaySubmit';
+
     protected const SANDBOX_API_URL = 'https://sandbox.payture.com';
 
-    /** @var PaytureInPayTerminalInterface */
-    private $terminal;
-    /** @var PaymentHelper */
-    private $helper;
+    private const ENV_KEY = 'PAYTURE_TEST_MERCHANT_KEY';
 
-    protected static function generateOrderId(): string
-    {
-        try {
-            return 'TEST' . (new \DateTime())->format('ymd-His');
-        } catch (\Exception $e) {
-            throw new \RuntimeException('Unable to generate \DateTime instance');
-        }
-    }
+    private const ENV_PASSWORD = 'PAYTURE_TEST_MERCHANT_PASSWORD';
 
     /**
-     * Successful payment without 3DS and with optional CVV.
-     *
-     * @see https://payture.com/api#test-cards_
+     * @var PaytureInPayTerminalInterface
      */
-    private static function getTestCard(): Card
-    {
-        return new Card('4111111111100031', '123', '22', '12', 'AUTO TESTS');
-    }
+    private $terminal;
+
+    /**
+     * @var PaymentHelper
+     */
+    private $helper;
 
     public function setUp()
     {
@@ -56,12 +47,23 @@ abstract class AbstractTerminalTestCase extends TestCase
         }
 
         $configuration = new TerminalConfiguration(
-            getenv(self::ENV_KEY), getenv(self::ENV_PASSWORD), self::SANDBOX_API_URL
+            getenv(self::ENV_KEY),
+            getenv(self::ENV_PASSWORD),
+            self::SANDBOX_API_URL
         );
-        $client = new Client();
-        $transport = new GuzzleHttpPaytureTransport($client, $configuration);
+        $client         = new Client();
+        $transport      = new GuzzleHttpPaytureTransport($client, $configuration);
         $this->terminal = new PaytureInPayTerminal($configuration, $transport);
-        $this->helper = new PaymentHelper($client);
+        $this->helper   = new PaymentHelper($client);
+    }
+
+    protected static function generateOrderId(): string
+    {
+        try {
+            return 'TEST' . (new DateTime())->format('ymd-His');
+        } catch (Exception $e) {
+            throw new RuntimeException('Unable to generate \DateTime instance');
+        }
     }
 
     protected function pay(string $paymentUrl, string $orderId, int $amount): void
@@ -72,5 +74,15 @@ abstract class AbstractTerminalTestCase extends TestCase
     protected function getTerminal(): PaytureInPayTerminalInterface
     {
         return $this->terminal;
+    }
+
+    /**
+     * Successful payment without 3DS and with optional CVV.
+     *
+     * @see https://payture.com/api#test-cards_
+     */
+    private static function getTestCard(): Card
+    {
+        return new Card('4111111111100031', '123', '22', '12', 'AUTO TESTS');
     }
 }

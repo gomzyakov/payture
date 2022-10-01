@@ -15,17 +15,31 @@ use PHPUnit\Framework\TestCase;
 final class PaytureInPayTerminalTest extends TestCase
 {
     private $config;
+
     private $transport;
 
-    /** @var PaytureInPayTerminal */
+    /**
+     * @var PaytureInPayTerminal
+     */
     private $terminal;
+
+    protected function setUp()
+    {
+        $this->config    = new TerminalConfiguration('MerchantKey', 'MerchantPassword', 'https://nowhere.payture.com/');
+        $this->transport = $this->createMock(TransportInterface::class);
+
+        $this->terminal = new PaytureInPayTerminal($this->config, $this->transport);
+    }
 
     /**
      * @dataProvider getInitSessionTypes
      *
+     * @param SessionType $type
+     * @param string      $data
+     *
      * @throws \Gomzyakov\Payture\InPayClient\Exception\TransportException
      */
-    public function testPaymentInit(SessionType $type, string $data): void
+    public function test_payment_init(SessionType $type, string $data): void
     {
         $this->transport->expects($this->once())
             ->method('request')
@@ -33,7 +47,7 @@ final class PaytureInPayTerminalTest extends TestCase
                 PaytureOperation::INIT(),
                 'apim',
                 [
-                    'Key' => 'MerchantKey',
+                    'Key'  => 'MerchantKey',
                     'Data' => $data,
                 ]
             )->willReturn('<Init Success="True" SessionId="external-id"/>');
@@ -69,7 +83,7 @@ final class PaytureInPayTerminalTest extends TestCase
         ];
     }
 
-    public function testPaymentCharge(): void
+    public function test_payment_charge(): void
     {
         $this->transport->expects($this->once())
             ->method('request')
@@ -77,9 +91,9 @@ final class PaytureInPayTerminalTest extends TestCase
                 PaytureOperation::CHARGE(),
                 'apim',
                 [
-                    'Key' => 'MerchantKey',
-                    'OrderId' => 'Order-123',
-                    'Amount' => 10000,
+                    'Key'      => 'MerchantKey',
+                    'OrderId'  => 'Order-123',
+                    'Amount'   => 10000,
                     'Password' => 'MerchantPassword',
                 ]
             )->willReturn('<Charge Success="True" Amount="10000"/>');
@@ -89,7 +103,7 @@ final class PaytureInPayTerminalTest extends TestCase
         self::assertTrue($response->isSuccess());
     }
 
-    public function testPaymentUnblock(): void
+    public function test_payment_unblock(): void
     {
         $this->transport->expects($this->once())
             ->method('request')
@@ -97,9 +111,9 @@ final class PaytureInPayTerminalTest extends TestCase
                 PaytureOperation::UNBLOCK(),
                 'apim',
                 [
-                    'Key' => 'MerchantKey',
-                    'OrderId' => 'Order-123',
-                    'Amount' => 10000,
+                    'Key'      => 'MerchantKey',
+                    'OrderId'  => 'Order-123',
+                    'Amount'   => 10000,
                     'Password' => 'MerchantPassword',
                 ]
             )->willReturn('<Unblock Success="True"/>');
@@ -109,7 +123,7 @@ final class PaytureInPayTerminalTest extends TestCase
         self::assertTrue($response->isSuccess());
     }
 
-    public function testPaymentRefund(): void
+    public function test_payment_refund(): void
     {
         $this->transport->expects($this->once())
             ->method('request')
@@ -117,9 +131,9 @@ final class PaytureInPayTerminalTest extends TestCase
                 PaytureOperation::REFUND(),
                 'apim',
                 [
-                    'Key' => 'MerchantKey',
-                    'OrderId' => 'Order-123',
-                    'Amount' => 6000,
+                    'Key'      => 'MerchantKey',
+                    'OrderId'  => 'Order-123',
+                    'Amount'   => 6000,
                     'Password' => 'MerchantPassword',
                 ]
             )->willReturn('<Refund Success="True" NewAmount="4000"/>');
@@ -130,7 +144,7 @@ final class PaytureInPayTerminalTest extends TestCase
         self::assertEquals(4000, $response->getAmount());
     }
 
-    public function testPaymentStatus(): void
+    public function test_payment_status(): void
     {
         $this->transport->expects($this->once())
             ->method('request')
@@ -138,7 +152,7 @@ final class PaytureInPayTerminalTest extends TestCase
                 PaytureOperation::PAY_STATUS(),
                 'apim',
                 [
-                    'Key' => 'MerchantKey',
+                    'Key'     => 'MerchantKey',
                     'OrderId' => 'Order-123',
                 ]
             )->willReturn('<PayStatus Success="True" State="Charged" Amount="10000"/>');
@@ -149,9 +163,9 @@ final class PaytureInPayTerminalTest extends TestCase
         self::assertTrue($response->isChargedState());
     }
 
-    public function testGetState(): void
+    public function test_get_state(): void
     {
-        $rrn = '003770024290';
+        $rrn     = '003770024290';
         $orderId = 'Order-123';
         $this->transport->expects($this->once())
             ->method('request')
@@ -159,7 +173,7 @@ final class PaytureInPayTerminalTest extends TestCase
                 PaytureOperation::GET_STATE(),
                 'apim',
                 [
-                    'Key' => 'MerchantKey',
+                    'Key'     => 'MerchantKey',
                     'OrderId' => $orderId,
                 ]
             )->willReturn('<GetState Success="True" OrderId="' . $orderId . '" State="Refunded"
@@ -173,19 +187,11 @@ final class PaytureInPayTerminalTest extends TestCase
         self::assertEquals($orderId, $response->getOrderId());
     }
 
-    public function testCreatingPaymentUrl(): void
+    public function test_creating_payment_url(): void
     {
         self::assertEquals(
             'https://nowhere.payture.com/apim/Pay?SessionId=external-id',
             $this->terminal->createPaymentUrl('external-id')
         );
-    }
-
-    protected function setUp()
-    {
-        $this->config = new TerminalConfiguration('MerchantKey', 'MerchantPassword', 'https://nowhere.payture.com/');
-        $this->transport = $this->createMock(TransportInterface::class);
-
-        $this->terminal = new PaytureInPayTerminal($this->config, $this->transport);
     }
 }

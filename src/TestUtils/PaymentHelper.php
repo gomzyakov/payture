@@ -7,13 +7,19 @@ use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\RequestOptions;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
+use DOMDocument;
+use DOMXPath;
+
+use function json_decode;
 
 /**
  * @codeCoverageIgnore
  */
 final class PaymentHelper extends Assert
 {
-    /** @var ClientInterface */
+    /**
+     * @var ClientInterface
+     */
     private $client;
 
     public function __construct(ClientInterface $client)
@@ -21,52 +27,13 @@ final class PaymentHelper extends Assert
         $this->client = $client;
     }
 
-    private static function formatCard(Card $card): array
-    {
-        return [
-            'cardNumber' => $card->getCardNumber(),
-            'SecureCode' => $card->getSecureCode(),
-            'EYear' => $card->getExpirationYear(),
-            'EMonth' => $card->getExpirationMonth(),
-            'CardHolder' => $card->getCardHolder(),
-        ];
-    }
-
-    private static function assertPaytureAcceptedCard(ResponseInterface $response): void
-    {
-        $body = \json_decode($response->getBody(), true);
-
-        self::assertEquals(200, $response->getStatusCode(), 'Wrong status code.');
-        self::assertEquals('application/json', $response->getHeaderLine('Content-Type'), 'Wrong content.');
-        self::assertEquals(true, $body['Success'], "Payment failure: {$response->getBody()}.");
-    }
-
     /**
-     * @param string[] $names
+     * @param string $orderNr
+     * @param int    $amount
+     * @param string $paymentUrl
+     * @param Card   $card
+     * @param string $sandboxUrl
      *
-     * @return string[]
-     */
-    private static function getInputValues(ResponseInterface $response, array $names): array
-    {
-        $html = (string) $response->getBody();
-        $dom = new \DOMDocument();
-        libxml_use_internal_errors(true);
-        $dom->loadHTML($html);
-        libxml_use_internal_errors(false);
-        $xpath = new \DOMXPath($dom);
-
-        $values = array_map(
-            function (string $name) use ($xpath) {
-                $values = $xpath->query('//input[@name="' . $name . '"]/@value');
-
-                return $values->item(0)->nodeValue;
-            }, $names
-        );
-
-        return array_combine($names, $values);
-    }
-
-    /**
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function pay(
@@ -81,8 +48,8 @@ final class PaymentHelper extends Assert
             $sandboxUrl,
             array_merge(
                 [
-                    'OrderId' => $orderNr,
-                    'Amount' => $amount,
+                    'OrderId'     => $orderNr,
+                    'Amount'      => $amount,
                     'TemplateTag' => 'json',
                 ],
                 self::formatCard($card)
@@ -90,14 +57,65 @@ final class PaymentHelper extends Assert
         );
     }
 
+    private static function formatCard(Card $card): array
+    {
+        return [
+            'cardNumber' => $card->getCardNumber(),
+            'SecureCode' => $card->getSecureCode(),
+            'EYear'      => $card->getExpirationYear(),
+            'EMonth'     => $card->getExpirationMonth(),
+            'CardHolder' => $card->getCardHolder(),
+        ];
+    }
+
+    private static function assertPaytureAcceptedCard(ResponseInterface $response): void
+    {
+        $body = json_decode($response->getBody(), true);
+
+        self::assertEquals(200, $response->getStatusCode(), 'Wrong status code.');
+        self::assertEquals('application/json', $response->getHeaderLine('Content-Type'), 'Wrong content.');
+        self::assertEquals(true, $body['Success'], "Payment failure: {$response->getBody()}.");
+    }
+
     /**
+     * @param string[]          $names
+     * @param ResponseInterface $response
+     *
+     * @return string[]
+     */
+    private static function getInputValues(ResponseInterface $response, array $names): array
+    {
+        $html = (string) $response->getBody();
+        $dom  = new DOMDocument();
+        libxml_use_internal_errors(true);
+        $dom->loadHTML($html);
+        libxml_use_internal_errors(false);
+        $xpath = new DOMXPath($dom);
+
+        $values = array_map(
+            function (string $name) use ($xpath) {
+                $values = $xpath->query('//input[@name="' . $name . '"]/@value');
+
+                return $values->item(0)->nodeValue;
+            },
+            $names
+        );
+
+        return array_combine($names, $values);
+    }
+
+    /**
+     * @param string $paymentUrl
+     * @param string $sandboxUrl
+     * @param array  $data
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     private function sendPayment(string $paymentUrl, string $sandboxUrl, array $data): void
     {
         $response = $this->client->request('GET', $paymentUrl);
 
-        self::assertEquals($response->getStatusCode(), 200, "Can't open payment page: $paymentUrl.");
+        self::assertEquals($response->getStatusCode(), 200, "Can't open payment page: {$paymentUrl}.");
 
         // Send request to sandbox with secret key:
         $response = $this->client->request(
@@ -106,7 +124,7 @@ final class PaymentHelper extends Assert
             [
                 RequestOptions::COOKIES => new CookieJar(true, []),
                 RequestOptions::HEADERS => [
-                    'Referer' => $paymentUrl,
+                    'Referer'          => $paymentUrl,
                     'X-Requested-With' => 'XMLHttpRequest',
                 ],
                 RequestOptions::FORM_PARAMS => [

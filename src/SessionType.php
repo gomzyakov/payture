@@ -9,6 +9,7 @@ namespace Gomzyakov\Payture\InPayClient;
  */
 interface SessionType
 {
-    const PAY = 'Pay';
-    const BLOCK = 'Block';
+    public const PAY = 'Pay';
+
+    public const BLOCK = 'Block';
 }

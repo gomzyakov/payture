@@ -11,13 +11,13 @@ use PHPUnit\Framework\TestCase;
  */
 final class GuzzleHttpOptionsBagTest extends TestCase
 {
-    public function testEmptyBag(): void
+    public function test_empty_bag(): void
     {
         $bag = new GuzzleHttpOptionsBag();
         self::assertEmpty($bag->getOperationOptions(PaytureOperation::INIT()));
     }
 
-    public function testOptionMering(): void
+    public function test_option_mering(): void
     {
         $bag = new GuzzleHttpOptionsBag(['timeout' => 5], ['Init' => ['timeout' => 15]]);
         self::assertEquals(['timeout' => 5], $bag->getOperationOptions(PaytureOperation::CHARGE()));
@@ -27,7 +27,7 @@ final class GuzzleHttpOptionsBagTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testInvalidOptionCausesValidationException(): void
+    public function test_invalid_option_causes_validation_exception(): void
     {
         new GuzzleHttpOptionsBag(['invalid option' => 5]);
     }
@@ -35,7 +35,7 @@ final class GuzzleHttpOptionsBagTest extends TestCase
     /**
      * @expectedException \InvalidArgumentException
      */
-    public function testInvalidOperationCausesValidationException(): void
+    public function test_invalid_operation_causes_validation_exception(): void
     {
         new GuzzleHttpOptionsBag([], ['Init' => ['invalid option' => 5]]);
     }

@@ -3,46 +3,41 @@
 namespace Gomzyakov\Payture\InPayClient;
 
 use Gomzyakov\Payture\InPayClient\Exception\TransportException;
+use LogicException;
+
+use function count;
 
 final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
 {
     private const API_PREFIX = 'apim';
 
-    /** @var TerminalConfiguration */
+    /**
+     * @var TerminalConfiguration
+     */
     private $config;
 
-    /** @var TransportInterface */
+    /**
+     * @var TransportInterface
+     */
     private $transport;
 
     public function __construct(TerminalConfiguration $config, TransportInterface $transport)
     {
-        $this->config = $config;
+        $this->config    = $config;
         $this->transport = $transport;
-    }
-
-    private static function mapSessionType(SessionType $sessionType): string
-    {
-        switch ((string) $sessionType) {
-            case (string) SessionType::PAY():
-                return 'Pay';
-            case (string) SessionType::BLOCK():
-                return 'Block';
-        }
-
-        // @codeCoverageIgnoreStart
-        throw new \LogicException('Unknown session type');
-        // @codeCoverageIgnoreEnd
     }
 
     /**
      * @see https://payture.com/api#inpay_init_
      *
-     * @param string $orderId Payment ID in Merchant system
-     * @param int $amount Payment amount
-     * @param string $clientIp User IP address
-     * @param string $url back URL
-     * @param string $templateTag Used template tag. If empty string - no template tag will be passed
-     * @param array $extra Payture none requirement extra fields
+     * @param string      $orderId     Payment ID in Merchant system
+     * @param int         $amount      Payment amount
+     * @param string      $clientIp    User IP address
+     * @param string      $url         back URL
+     * @param string      $templateTag Used template tag. If empty string - no template tag will be passed
+     * @param array       $extra       Payture none requirement extra fields
+     * @param SessionType $sessionType
+     * @param string      $product
      *
      * @throws TransportException
      */
@@ -58,23 +53,23 @@ final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
     ): TerminalResponse {
         $data = [
             'SessionType' => self::mapSessionType($sessionType),
-            'OrderId' => $orderId,
-            'Amount' => $amount,
-            'IP' => $clientIp,
-            'Product' => $product,
-            'Url' => $url,
+            'OrderId'     => $orderId,
+            'Amount'      => $amount,
+            'IP'          => $clientIp,
+            'Product'     => $product,
+            'Url'         => $url,
         ];
 
         if ($templateTag !== '') {
             $data['TemplateTag'] = $templateTag;
         }
 
-        if (\count($extra)) {
+        if (count($extra)) {
             $data = array_merge($data, $extra);
         }
 
         $urlParams = [
-            'Key' => $this->config->getKey(),
+            'Key'  => $this->config->getKey(),
             'Data' => http_build_query($data, '', ';'),
         ];
 
@@ -85,17 +80,17 @@ final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
      * @see https://payture.com/api#inpay_charge_
      *
      * @param string $orderId Payment ID in Merchant system
-     * @param int $amount Charging amount in kopecks
+     * @param int    $amount  Charging amount in kopecks
      *
      * @throws TransportException
      */
     public function charge(string $orderId, int $amount): TerminalResponse
     {
         $data = [
-            'Key' => $this->config->getKey(),
+            'Key'      => $this->config->getKey(),
             'Password' => $this->config->getPassword(),
-            'OrderId' => $orderId,
-            'Amount' => $amount,
+            'OrderId'  => $orderId,
+            'Amount'   => $amount,
         ];
 
         return $this->sendRequest(PaytureOperation::CHARGE(), $data);
@@ -107,17 +102,17 @@ final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
      * @see https://payture.com/api#inpay_unblock_
      *
      * @param string $orderId Payment ID in Merchant system
-     * @param int $amount Amount in kopecks that is to be returned
+     * @param int    $amount  Amount in kopecks that is to be returned
      *
      * @throws TransportException
      */
     public function unblock(string $orderId, int $amount): TerminalResponse
     {
         $data = [
-            'Key' => $this->config->getKey(),
+            'Key'      => $this->config->getKey(),
             'Password' => $this->config->getPassword(),
-            'OrderId' => $orderId,
-            'Amount' => $amount,
+            'OrderId'  => $orderId,
+            'Amount'   => $amount,
         ];
 
         return $this->sendRequest(PaytureOperation::UNBLOCK(), $data);
@@ -129,17 +124,17 @@ final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
      * @see https://payture.com/api#inpay_refund_
      *
      * @param string $orderId Payment ID in Merchant system
-     * @param int $amount Amount in kopecks that is to be returned
+     * @param int    $amount  Amount in kopecks that is to be returned
      *
      * @throws TransportException
      */
     public function refund(string $orderId, int $amount): TerminalResponse
     {
         $data = [
-            'Key' => $this->config->getKey(),
+            'Key'      => $this->config->getKey(),
             'Password' => $this->config->getPassword(),
-            'OrderId' => $orderId,
-            'Amount' => $amount,
+            'OrderId'  => $orderId,
+            'Amount'   => $amount,
         ];
 
         return $this->sendRequest(PaytureOperation::REFUND(), $data);
@@ -157,7 +152,7 @@ final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
     public function payStatus(string $orderId): TerminalResponse
     {
         $data = [
-            'Key' => $this->config->getKey(),
+            'Key'     => $this->config->getKey(),
             'OrderId' => $orderId,
         ];
 
@@ -176,7 +171,7 @@ final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
     public function getState(string $orderId): TerminalResponse
     {
         $data = [
-            'Key' => $this->config->getKey(),
+            'Key'     => $this->config->getKey(),
             'OrderId' => $orderId,
         ];
 
@@ -192,7 +187,24 @@ final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
         return $this->config->buildOperationUrl(PaytureOperation::PAY(), self::API_PREFIX, $data);
     }
 
+    private static function mapSessionType(SessionType $sessionType): string
+    {
+        switch ((string) $sessionType) {
+            case (string) SessionType::PAY():
+                return 'Pay';
+            case (string) SessionType::BLOCK():
+                return 'Block';
+        }
+
+        // @codeCoverageIgnoreStart
+        throw new LogicException('Unknown session type');
+        // @codeCoverageIgnoreEnd
+    }
+
     /**
+     * @param PaytureOperation $operation
+     * @param array            $parameters
+     *
      * @throws TransportException
      */
     private function sendRequest(PaytureOperation $operation, array $parameters): TerminalResponse

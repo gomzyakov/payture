@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
  */
 final class GuzzleHttpPaytureTransportTest extends TestCase
 {
-    public function testOperationExecution(): void
+    public function test_operation_execution(): void
     {
         $client = $this->createMock(ClientInterface::class);
         $logger = $this->createMock(LoggerInterface::class);
@@ -39,7 +39,7 @@ final class GuzzleHttpPaytureTransportTest extends TestCase
     /**
      * @expectedException \Gomzyakov\Payture\InPayClient\Exception\TransportException
      */
-    public function testTransportConvertsGuzzleExceptionToTransportException(): void
+    public function test_transport_converts_guzzle_exception_to_transport_exception(): void
     {
         $client = $this->createMock(ClientInterface::class);
         $config = new TerminalConfiguration('MerchantKey', 'MerchantPassword', 'https://nowhere.payture.com/');

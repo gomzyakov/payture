@@ -7,15 +7,29 @@ namespace Gomzyakov\Payture\InPayClient\TestUtils;
  */
 final class Card
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     private $cardNumber;
-    /** @var string */
+
+    /**
+     * @var string
+     */
     private $secureCode;
-    /** @var string */
+
+    /**
+     * @var string
+     */
     private $expirationYear;
-    /** @var string */
+
+    /**
+     * @var string
+     */
     private $expirationMonth;
-    /** @var string */
+
+    /**
+     * @var string
+     */
     private $cardHolder;
 
     public function __construct(
@@ -25,11 +39,11 @@ final class Card
         string $expirationMonth,
         string $cardHolder
     ) {
-        $this->cardNumber = $cardNumber;
-        $this->secureCode = $secureCode;
-        $this->expirationYear = $expirationYear;
+        $this->cardNumber      = $cardNumber;
+        $this->secureCode      = $secureCode;
+        $this->expirationYear  = $expirationYear;
         $this->expirationMonth = $expirationMonth;
-        $this->cardHolder = $cardHolder;
+        $this->cardHolder      = $cardHolder;
     }
 
     public function getCardNumber(): string

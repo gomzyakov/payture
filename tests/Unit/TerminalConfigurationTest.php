@@ -5,13 +5,14 @@ namespace Gomzyakov\Payture\InPayClient\Tests\Unit;
 use Gomzyakov\Payture\InPayClient\PaytureOperation;
 use Gomzyakov\Payture\InPayClient\TerminalConfiguration;
 use PHPUnit\Framework\TestCase;
+use InvalidArgumentException;
 
 /**
  * @covers \Gomzyakov\Payture\InPayClient\TerminalConfiguration
  */
 final class TerminalConfigurationTest extends TestCase
 {
-    public function testValidConfig(): void
+    public function test_valid_config(): void
     {
         $config = new TerminalConfiguration('secret', 'pass', 'http://nowhere.payture.com');
 
@@ -24,8 +25,12 @@ final class TerminalConfigurationTest extends TestCase
 
     /**
      * @dataProvider notValidConfigVariants
+     *
+     * @param array  $options
+     * @param string $exception
+     * @param string $message
      */
-    public function testNotValidConfig(array $options, string $exception, string $message): void
+    public function test_not_valid_config(array $options, string $exception, string $message): void
     {
         $this->expectExceptionMessage($message);
         $this->expectException($exception);
@@ -39,39 +44,39 @@ final class TerminalConfigurationTest extends TestCase
             // required validation
             [
                 [
-                    'key' => '',
-                    'url' => 'test',
+                    'key'      => '',
+                    'url'      => 'test',
                     'password' => 'test',
                 ],
-                \InvalidArgumentException::class,
+                InvalidArgumentException::class,
                 'Empty terminal Key provided',
             ],
             [
                 [
-                    'key' => 'test',
-                    'url' => '',
+                    'key'      => 'test',
+                    'url'      => '',
                     'password' => 'test',
                 ],
-                \InvalidArgumentException::class,
+                InvalidArgumentException::class,
                 'Invalid URL provided',
             ],
             [
                 [
-                    'key' => 'test',
-                    'url' => 'test',
+                    'key'      => 'test',
+                    'url'      => 'test',
                     'password' => '',
                 ],
-                \InvalidArgumentException::class,
+                InvalidArgumentException::class,
                 'Empty terminal Password provided',
             ],
             // format validation
             [
                 [
-                    'key' => 'secret',
-                    'url' => 'payture.com',
+                    'key'      => 'secret',
+                    'url'      => 'payture.com',
                     'password' => 'pass',
                 ],
-                \InvalidArgumentException::class,
+                InvalidArgumentException::class,
                 'Invalid URL provided',
             ],
         ];
@@ -79,8 +84,12 @@ final class TerminalConfigurationTest extends TestCase
 
     /**
      * @dataProvider getOperationUrlProviders
+     *
+     * @param PaytureOperation $operation
+     * @param array            $parameters
+     * @param string           $expectedUrl
      */
-    public function testBuildingOperationUrl(PaytureOperation $operation, array $parameters, string $expectedUrl): void
+    public function test_building_operation_url(PaytureOperation $operation, array $parameters, string $expectedUrl): void
     {
         $configuration = new TerminalConfiguration('MerchantKey', 'MerchantPassword', 'https://nowhere.payture.com/');
         self::assertSame($expectedUrl, $configuration->buildOperationUrl($operation, 'apim', $parameters));
