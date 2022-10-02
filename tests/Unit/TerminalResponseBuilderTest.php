@@ -2,6 +2,7 @@
 
 namespace Gomzyakov\Payture\InPayClient\Tests\Unit;
 
+use Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException;
 use Gomzyakov\Payture\InPayClient\PaytureOperation;
 use Gomzyakov\Payture\InPayClient\TerminalResponse;
 use Gomzyakov\Payture\InPayClient\TerminalResponseBuilder;
@@ -19,7 +20,7 @@ final class TerminalResponseBuilderTest extends TestCase
      * @param PaytureOperation $operation
      * @param bool             $success
      *
-     * @throws \Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException
+     * @throws InvalidResponseException
      */
     public function test_builder_parses_xml_string_into_response(
         string $xml,
@@ -35,48 +36,48 @@ final class TerminalResponseBuilderTest extends TestCase
         return [
             'Init' => [
                 '<Init Success="true" OrderId="" Amount="" SessionId="external-id" />',
-                PaytureOperation::INIT(),
+                PaytureOperation::Init,
                 true,
             ],
             'Charge success' => [
                 '<Charge Success="True" OrderId="nw9z5rl8hkhhpfbb4ual7w" Amount="12394" />',
-                PaytureOperation::CHARGE(),
+                PaytureOperation::Charge,
                 true,
             ],
             'Charge failure' => [
                 '<Charge Success="False" OrderId="nw9z5rl8hkhhpfbb4ual7w" Amount="0" ErrCode="ILLEGAL_ORDER_STATE" />',
-                PaytureOperation::CHARGE(),
+                PaytureOperation::Charge,
                 false,
             ],
             'Unblock success' => [
                 '<Unblock Success="True" OrderId="nw9z5rl8hkhhpfbb4ual7w" NewAmount="0" />',
-                PaytureOperation::UNBLOCK(),
+                PaytureOperation::Unblock,
                 true,
             ],
             'Unblock failure' => [
                 '<Unblock Success="False" OrderId="nw9z5rl8hkhhpfbb4ual7w" ErrCode="ILLEGAL_ORDER_STATE" />',
-                PaytureOperation::UNBLOCK(),
+                PaytureOperation::Unblock,
                 false,
             ],
             'Refund success' => [
                 '<Refund Success="True" OrderId="nw9z5rl8hkhhpfbb4ual7w" NewAmount="2000" />',
-                PaytureOperation::REFUND(),
+                PaytureOperation::Refund,
                 true,
             ],
             'Refund failure' => [
                 '<Refund Success="False" OrderId="nw9z5rl8hkhhpfbb4ual7w" ErrCode="AMOUNT_ERROR" />',
-                PaytureOperation::REFUND(),
+                PaytureOperation::Refund,
                 false,
             ],
             'PayStatus' => [
                 '<PayStatus Success="True" OrderId="nw9z5rl8hkhhpfbb4ual7w" Amount="2000" State="Charged" />',
-                PaytureOperation::PAY_STATUS(),
+                PaytureOperation::PayStatus,
                 true,
             ],
             'GetState' => [
                 '<GetState Success="True" OrderId="nw9z5rl8hkhhpfbb4ual7w" Amount="2000" State="Charged"
                     RRN="003770024290"/>',
-                PaytureOperation::GET_STATE(),
+                PaytureOperation::GetState,
                 true,
             ],
         ];
@@ -89,11 +90,11 @@ final class TerminalResponseBuilderTest extends TestCase
      * @param string $xml
      * @param string $accessMethod
      *
-     * @throws \Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException
+     * @throws InvalidResponseException
      */
     public function test_builder_populates_response_fields(string $xml, string $accessMethod, $expectedValue): void
     {
-        $response = TerminalResponseBuilder::parseTransportResponse($xml, PaytureOperation::CHARGE());
+        $response = TerminalResponseBuilder::parseTransportResponse($xml, PaytureOperation::Charge);
         self::assertEquals($expectedValue, $response->{$accessMethod}());
     }
 
@@ -134,34 +135,34 @@ final class TerminalResponseBuilderTest extends TestCase
     }
 
     /**
-     * @expectedException \Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException
+     * @expectedException \InvalidResponseException
      */
     public function test_builder_throws_exception_for_invalid_xml(): void
     {
-        TerminalResponseBuilder::parseTransportResponse('Definitely not an XML string', PaytureOperation::INIT());
+        TerminalResponseBuilder::parseTransportResponse('Definitely not an XML string', PaytureOperation::Init);
     }
 
     /**
-     * @expectedException \Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException
+     * @expectedException \InvalidResponseException
      */
     public function test_builder_throws_exception_for_operation_mismatch(): void
     {
-        TerminalResponseBuilder::parseTransportResponse('<Charge Success="True"/>', PaytureOperation::INIT());
+        TerminalResponseBuilder::parseTransportResponse('<Charge Success="True"/>', PaytureOperation::Init);
     }
 
     /**
-     * @expectedException \Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException
+     * @expectedException \InvalidResponseException
      */
     public function test_build_throws_exception_if_no_attribute_defined(): void
     {
-        TerminalResponseBuilder::parseTransportResponse('<Charge/>', PaytureOperation::CHARGE());
+        TerminalResponseBuilder::parseTransportResponse('<Charge/>', PaytureOperation::Charge);
     }
 
     /**
-     * @expectedException \Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException
+     * @expectedException \InvalidResponseException
      */
     public function test_build_throws_exception_if_no_success_attribute_defined(): void
     {
-        TerminalResponseBuilder::parseTransportResponse('<Charge Amount="10000"/>', PaytureOperation::CHARGE());
+        TerminalResponseBuilder::parseTransportResponse('<Charge Amount="10000"/>', PaytureOperation::Charge);
     }
 }

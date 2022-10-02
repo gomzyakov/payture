@@ -5,11 +5,16 @@ namespace Gomzyakov\Payture\InPayClient;
 /**
  * Enum which determine session types in payture gateway.
  *
+ * TODO Move to References
+ *
  * @see https://payture.com/api#inpay_init_
  */
-interface SessionType
+enum SessionType
 {
-    public const PAY = 'Pay';
+    /**
+     * TODO Add description.
+     */
+    case Pay;
 
-    public const BLOCK = 'Block';
+    case Block;
 }

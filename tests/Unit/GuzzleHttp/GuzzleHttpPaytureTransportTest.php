@@ -33,11 +33,11 @@ final class GuzzleHttpPaytureTransportTest extends TestCase
         $logger->expects($this->once())
             ->method('info');
 
-        self::assertEquals($response, $transport->request(PaytureOperation::INIT(), 'apim', []));
+        self::assertEquals($response, $transport->request(PaytureOperation::Init, 'apim', []));
     }
 
     /**
-     * @expectedException \Gomzyakov\Payture\InPayClient\Exception\TransportException
+     * @expectedException \TransportException
      */
     public function test_transport_converts_guzzle_exception_to_transport_exception(): void
     {
@@ -51,6 +51,6 @@ final class GuzzleHttpPaytureTransportTest extends TestCase
             ->with('GET', 'https://nowhere.payture.com/apim/Init?', [])
             ->willThrowException(new TransferException('Request failed'));
 
-        $transport->request(PaytureOperation::INIT(), 'apim', []);
+        $transport->request(PaytureOperation::Init, 'apim', []);
     }
 }

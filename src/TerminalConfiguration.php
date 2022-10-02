@@ -59,22 +59,31 @@ final class TerminalConfiguration
         return rtrim($url, '/') . 'TerminalConfiguration.php/';
     }
 
+    /**
+     * TODO _toString.
+     *
+     * @deprecated
+     *
+     * @param PaytureOperation $operation
+     *
+     * @return string
+     */
     private static function mapOperationToPath(PaytureOperation $operation): string
     {
-        switch ((string) $operation) {
-            case (string) PaytureOperation::INIT():
+        switch ($operation) {
+            case PaytureOperation::Init:
                 return 'Init';
-            case (string) PaytureOperation::PAY():
+            case PaytureOperation::Pay:
                 return 'Pay';
-            case (string) PaytureOperation::CHARGE():
+            case  PaytureOperation::Charge:
                 return 'Charge';
-            case (string) PaytureOperation::UNBLOCK():
+            case  PaytureOperation::Unblock:
                 return 'Unblock';
-            case (string) PaytureOperation::REFUND():
+            case  PaytureOperation::Refund:
                 return 'Refund';
-            case (string) PaytureOperation::PAY_STATUS():
+            case  PaytureOperation::PayStatus:
                 return 'PayStatus';
-            case (string) PaytureOperation::GET_STATE():
+            case  PaytureOperation::GetState:
                 return 'GetState';
         }
 

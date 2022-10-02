@@ -44,7 +44,7 @@ final class PaytureInPayTerminalTest extends TestCase
         $this->transport->expects($this->once())
             ->method('request')
             ->with(
-                PaytureOperation::INIT(),
+                PaytureOperation::Init,
                 'apim',
                 [
                     'Key'  => 'MerchantKey',
@@ -73,11 +73,11 @@ final class PaytureInPayTerminalTest extends TestCase
     {
         return [
             [
-                SessionType::PAY(),
+                SessionType::Pay,
                 'SessionType=Pay;OrderId=Order-123;Amount=10000;IP=127.0.0.1;Product=The+order;Url=https%3A%2F%2Fredirect-me.back%2F;TemplateTag=template;custom_data=value',
             ],
             [
-                SessionType::BLOCK(),
+                SessionType::Block,
                 'SessionType=Block;OrderId=Order-123;Amount=10000;IP=127.0.0.1;Product=The+order;Url=https%3A%2F%2Fredirect-me.back%2F;TemplateTag=template;custom_data=value',
             ],
         ];
@@ -88,7 +88,7 @@ final class PaytureInPayTerminalTest extends TestCase
         $this->transport->expects($this->once())
             ->method('request')
             ->with(
-                PaytureOperation::CHARGE(),
+                PaytureOperation::Charge,
                 'apim',
                 [
                     'Key'      => 'MerchantKey',
@@ -108,7 +108,7 @@ final class PaytureInPayTerminalTest extends TestCase
         $this->transport->expects($this->once())
             ->method('request')
             ->with(
-                PaytureOperation::UNBLOCK(),
+                PaytureOperation::Unblock,
                 'apim',
                 [
                     'Key'      => 'MerchantKey',
@@ -128,7 +128,7 @@ final class PaytureInPayTerminalTest extends TestCase
         $this->transport->expects($this->once())
             ->method('request')
             ->with(
-                PaytureOperation::REFUND(),
+                PaytureOperation::Refund,
                 'apim',
                 [
                     'Key'      => 'MerchantKey',
@@ -149,7 +149,7 @@ final class PaytureInPayTerminalTest extends TestCase
         $this->transport->expects($this->once())
             ->method('request')
             ->with(
-                PaytureOperation::PAY_STATUS(),
+                PaytureOperation::PayStatus,
                 'apim',
                 [
                     'Key'     => 'MerchantKey',
@@ -170,7 +170,7 @@ final class PaytureInPayTerminalTest extends TestCase
         $this->transport->expects($this->once())
             ->method('request')
             ->with(
-                PaytureOperation::GET_STATE(),
+                PaytureOperation::GetState,
                 'apim',
                 [
                     'Key'     => 'MerchantKey',

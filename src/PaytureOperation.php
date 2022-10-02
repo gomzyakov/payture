@@ -4,24 +4,26 @@ namespace Gomzyakov\Payture\InPayClient;
 
 /**
  * Operations that payture accepts.
+ *
+ * TODO Move to References
+ * TODO Link
  */
-interface PaytureOperation
+enum PaytureOperation
 {
-    public const INIT = 'Init';
-
-    public const PAY = 'Pay';
-
-    public const CHARGE = 'Charge';
-
-    public const UNBLOCK = 'Unblock';
-
-    public const REFUND = 'Refund';
-
     /**
-     * @deprecated
-     * @see PaytureOperation::GET_STATE
+     * TODO Add description.
      */
-    public const PAY_STATUS = 'PayStatus';
+    case Init;
 
-    public const GET_STATE = 'GetState';
+    case Pay;
+
+    case Charge;
+
+    case Unblock;
+
+    case Refund;
+
+    case PayStatus;
+
+    case GetState;
 }

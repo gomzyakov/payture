@@ -73,7 +73,7 @@ final class TwoStepPaymentTerminalTest extends AbstractTerminalTestCase
     private function initPayment(string $orderId): TerminalResponse
     {
         return $this->getTerminal()->init(
-            SessionType::BLOCK(),
+            SessionType::Block,
             $orderId,
             'Auto Test purchase',
             self::ORDER_PRICE,

@@ -99,37 +99,37 @@ final class TerminalConfigurationTest extends TestCase
     {
         return [
             [
-                PaytureOperation::INIT(),
+                PaytureOperation::Init,
                 ['Key' => 'MerchantKey', 'Data' => 'SomeData'],
                 'https://nowhere.payture.com/apim/Init?Key=MerchantKey&Data=SomeData',
             ],
             [
-                PaytureOperation::PAY(),
+                PaytureOperation::Pay,
                 ['SessionId' => 'external-id'],
                 'https://nowhere.payture.com/apim/Pay?SessionId=external-id',
             ],
             [
-                PaytureOperation::CHARGE(),
+                PaytureOperation::Charge,
                 ['Key' => 'MerchantKey', 'Data' => 'SomeData'],
                 'https://nowhere.payture.com/apim/Charge?Key=MerchantKey&Data=SomeData',
             ],
             [
-                PaytureOperation::REFUND(),
+                PaytureOperation::Refund,
                 ['Key' => 'MerchantKey', 'Data' => 'SomeData'],
                 'https://nowhere.payture.com/apim/Refund?Key=MerchantKey&Data=SomeData',
             ],
             [
-                PaytureOperation::UNBLOCK(),
+                PaytureOperation::Unblock,
                 ['Key' => 'MerchantKey', 'Data' => 'SomeData'],
                 'https://nowhere.payture.com/apim/Unblock?Key=MerchantKey&Data=SomeData',
             ],
             [
-                PaytureOperation::PAY_STATUS(),
+                PaytureOperation::PayStatus,
                 ['Key' => 'MerchantKey', 'Data' => 'SomeData'],
                 'https://nowhere.payture.com/apim/PayStatus?Key=MerchantKey&Data=SomeData',
             ],
             [
-                PaytureOperation::GET_STATE(),
+                PaytureOperation::GetState,
                 ['Key' => 'MerchantKey', 'Data' => 'SomeData'],
                 'https://nowhere.payture.com/apim/GetState?Key=MerchantKey&Data=SomeData',
             ],

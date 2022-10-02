@@ -12,7 +12,7 @@ final class PaytureOperationTest extends TestCase
 {
     public function test_to_string_returns_operation_name(): void
     {
-        $operation = PaytureOperation::INIT();
+        $operation = PaytureOperation::Init;
         self::assertSame('Init', (string) $operation);
     }
 }

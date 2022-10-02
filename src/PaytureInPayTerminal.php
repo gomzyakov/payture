@@ -2,6 +2,7 @@
 
 namespace Gomzyakov\Payture\InPayClient;
 
+use Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException;
 use Gomzyakov\Payture\InPayClient\Exception\TransportException;
 use LogicException;
 
@@ -73,7 +74,7 @@ final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
             'Data' => http_build_query($data, '', ';'),
         ];
 
-        return $this->sendRequest(PaytureOperation::INIT(), $urlParams);
+        return $this->sendRequest(PaytureOperation::Init, $urlParams);
     }
 
     /**
@@ -93,7 +94,7 @@ final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
             'Amount'   => $amount,
         ];
 
-        return $this->sendRequest(PaytureOperation::CHARGE(), $data);
+        return $this->sendRequest(PaytureOperation::Charge, $data);
     }
 
     /**
@@ -115,7 +116,7 @@ final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
             'Amount'   => $amount,
         ];
 
-        return $this->sendRequest(PaytureOperation::UNBLOCK(), $data);
+        return $this->sendRequest(PaytureOperation::Unblock, $data);
     }
 
     /**
@@ -137,7 +138,7 @@ final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
             'Amount'   => $amount,
         ];
 
-        return $this->sendRequest(PaytureOperation::REFUND(), $data);
+        return $this->sendRequest(PaytureOperation::Refund, $data);
     }
 
     /**
@@ -156,7 +157,7 @@ final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
             'OrderId' => $orderId,
         ];
 
-        return $this->sendRequest(PaytureOperation::PAY_STATUS(), $data);
+        return $this->sendRequest(PaytureOperation::PayStatus, $data);
     }
 
     /**
@@ -175,7 +176,7 @@ final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
             'OrderId' => $orderId,
         ];
 
-        return $this->sendRequest(PaytureOperation::GET_STATE(), $data);
+        return $this->sendRequest(PaytureOperation::GetState, $data);
     }
 
     public function createPaymentUrl(string $sessionId): string
@@ -184,15 +185,16 @@ final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
             'SessionId' => $sessionId,
         ];
 
-        return $this->config->buildOperationUrl(PaytureOperation::PAY(), self::API_PREFIX, $data);
+        return $this->config->buildOperationUrl(PaytureOperation::Pay, self::API_PREFIX, $data);
     }
 
     private static function mapSessionType(SessionType $sessionType): string
     {
-        switch ((string) $sessionType) {
-            case (string) SessionType::PAY():
+        // TODO Just SessionType __toString
+        switch ($sessionType) {
+            case SessionType::Pay:
                 return 'Pay';
-            case (string) SessionType::BLOCK():
+            case SessionType::Block:
                 return 'Block';
         }
 
@@ -205,7 +207,10 @@ final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
      * @param PaytureOperation $operation
      * @param array            $parameters
      *
+     * @throws InvalidResponseException
      * @throws TransportException
+     *
+     * @return TerminalResponse
      */
     private function sendRequest(PaytureOperation $operation, array $parameters): TerminalResponse
     {

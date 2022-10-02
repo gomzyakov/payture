@@ -2,6 +2,15 @@
 
 namespace Gomzyakov\Payture\InPayClient;
 
+/**
+ * Transaction statuses.
+ *
+ * TODO Move to References
+ * TODO Rename to Transaction statuses
+ * TODO Convert to Enum
+ *
+ * @see https://payture.com/en/api/#transaction-statuses_
+ */
 final class TerminalResponse
 {
     /**
@@ -11,6 +20,9 @@ final class TerminalResponse
      */
     public const ERROR_NONE = 'NONE';
 
+    /**
+     * TODO Add description.
+     */
     public const ERROR_ORDER_TIME_OUT = 'ORDER_TIME_OUT';
 
     public const ERROR_ILLEGAL_ORDER_STATE = 'ILLEGAL_ORDER_STATE';
