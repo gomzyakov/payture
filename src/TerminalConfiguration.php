@@ -10,17 +10,17 @@ final class TerminalConfiguration
     /**
      * @var string
      */
-    private $url;
+    private string $url;
 
     /**
      * @var string
      */
-    private $key;
+    private string $key;
 
     /**
      * @var string
      */
-    private $password;
+    private string $password;
 
     public function __construct(string $key, string $password, string $url)
     {
@@ -48,6 +48,15 @@ final class TerminalConfiguration
         return $this->password;
     }
 
+    /**
+     * TODO Заменить все array<mixed> на конкретику.
+     *
+     * @param PaytureOperation $operation
+     * @param string           $interface
+     * @param array<mixed>     $parameters
+     *
+     * @return string
+     */
     public function buildOperationUrl(PaytureOperation $operation, string $interface, array $parameters): string
     {
         return $this->getUrl() . $interface .

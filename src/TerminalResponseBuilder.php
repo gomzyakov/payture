@@ -5,6 +5,7 @@ namespace Gomzyakov\Payture\InPayClient;
 use Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException;
 use SimpleXMLElement;
 use LogicException;
+use Exception;
 
 /**
  * @internal
@@ -12,18 +13,21 @@ use LogicException;
 final class TerminalResponseBuilder
 {
     /**
-     * @param string           $transportResponse
+     * @param string           $transport_response
      * @param PaytureOperation $operation
      *
      * @throws InvalidResponseException
+     *
+     * @return TerminalResponse
      */
     public static function parseTransportResponse(
-        string $transportResponse,
+        string $transport_response,
         PaytureOperation $operation
     ): TerminalResponse {
-        $attributes = self::parseAttributesFromXmlResponse($transportResponse, self::mapOperationToRootNode($operation));
+        $attributes = self::parseAttributesFromXmlResponse($transport_response, self::mapOperationToRootNode($operation));
 
-        if (! isset($attributes['Success'])) {
+        // TODO Этой проверки быть не должно
+        if (! isset($attributes['Success']) || ! is_string($attributes['Success'])) {
             throw InvalidResponseException::becauseUndefinedSuccessAttribute();
         }
 
@@ -61,6 +65,8 @@ final class TerminalResponseBuilder
      * @param string $operation
      *
      * @throws InvalidResponseException
+     *
+     * @return array<mixed>
      */
     private static function parseAttributesFromXmlResponse(string $xml, string $operation): array
     {
@@ -86,17 +92,21 @@ final class TerminalResponseBuilder
     }
 
     /**
+     * @param PaytureOperation $operation
+     *
+     * @throws Exception
+     *
+     * @return string
+     *
      * @deprecated
      *
      * TODO _toString
-     *
-     * @param PaytureOperation $operation
-     *
-     * @return string
      */
     private static function mapOperationToRootNode(PaytureOperation $operation): string
     {
         switch ($operation) {
+            case PaytureOperation::Pay:
+                throw new Exception('To be implemented'); // TODO Realize
             case PaytureOperation::Init:
                 return 'Init';
             case  PaytureOperation::Charge:

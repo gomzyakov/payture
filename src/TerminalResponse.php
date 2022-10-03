@@ -8,6 +8,7 @@ namespace Gomzyakov\Payture\InPayClient;
  * TODO Move to References
  * TODO Rename to Transaction statuses
  * TODO Convert to Enum
+ * TODO Вынести константы в справочник
  *
  * @see https://payture.com/en/api/#transaction-statuses_
  */
@@ -65,56 +66,58 @@ final class TerminalResponse
      *
      * @var bool
      */
-    private $success;
+    private bool $success;
 
     /**
      * Payment ID in Merchant system.
      *
      * @var string
      */
-    private $orderId;
+    private string $orderId;
 
     /**
      * Operation amount.
      *
      * @var int
      */
-    private $amount = 0;
+    private int $amount = 0;
 
     /**
      * Payment status.
      *
-     * @var string|null
+     * @var string
      */
-    private $state;
+    private string $state;
 
     /**
      * Payment ID in Payture system.
      *
      * @var string
      */
-    private $sessionId = '';
+    private string $session_id = '';
 
     /**
      * Unique transaction number assigned by the acquiring bank.
      *
      * @var string|null
      */
-    private $rrn;
+    private ?string $rrn;
 
-    /** Error code.
+    /**
+     * Error code.
+     * TODO Заменить все переменные вида $errorCode на $error_code.
      *
      * @var string
      */
-    private $errorCode = '';
+    private string $errorCode = '';
 
     /**
      * @param string $success Operation success flag
-     * @param mixed  $orderId Payment ID in Merchant system
+     * @param string $orderId Payment ID in Merchant system
      */
     public function __construct(string $success, string $orderId)
     {
-        $this->success = mb_strtolower($success) === mb_strtolower(static::STATUS_SUCCESS);
+        $this->success = mb_strtolower($success) === mb_strtolower(self::STATUS_SUCCESS);
         $this->orderId = $orderId;
     }
 
@@ -145,12 +148,12 @@ final class TerminalResponse
 
     public function getSessionId(): string
     {
-        return $this->sessionId;
+        return $this->session_id;
     }
 
-    public function setSessionId(string $sessionId): void
+    public function setSessionId(string $session_id): void
     {
-        $this->sessionId = $sessionId;
+        $this->session_id = $session_id;
     }
 
     public function getErrorCode(): string
@@ -181,6 +184,13 @@ final class TerminalResponse
         $this->state = $state;
     }
 
+    /**
+     * TODO Description.
+     *
+     * @param string $rrn
+     *
+     * @return void
+     */
     public function setRrn(string $rrn): void
     {
         $this->rrn = $rrn;
@@ -261,7 +271,7 @@ final class TerminalResponse
         return ! $this->success && $this->getErrorCode() === self::ERROR_ISSUER_FAIL;
     }
 
-    private function isStateEqual($expectedState): bool
+    private function isStateEqual(string $expectedState): bool
     {
         return mb_strtolower($this->state) === mb_strtolower($expectedState);
     }

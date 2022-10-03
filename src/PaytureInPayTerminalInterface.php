@@ -14,27 +14,27 @@ interface PaytureInPayTerminalInterface
     public function getState(string $orderId): TerminalResponse;
 
     /**
-     * @deprecated
-     * @see PaytureInPayTerminalInterface::getState()
-     * @see https://payture.com/api#inpay_paystatus_
-     *
      * @param string $orderId Payment ID in Merchant system
      *
      * @throws TransportException
+     *
+     * @see https://payture.com/api#inpay_paystatus_
+     * @deprecated
+     * @see PaytureInPayTerminalInterface::getState()
      */
     public function payStatus(string $orderId): TerminalResponse;
 
     /**
      * @see https://payture.com/api#inpay_init_
      *
-     * @param string      $orderId     Payment ID in Merchant system
-     * @param int         $amount      Payment amount
-     * @param string      $clientIp    User IP address
-     * @param string      $url         back URL
-     * @param string      $templateTag Used template tag. If empty string - no template tag will be passed
-     * @param array       $extra       Payture none requirement extra fields
-     * @param SessionType $sessionType
-     * @param string      $product
+     * @param string               $orderId     Payment ID in Merchant system
+     * @param int                  $amount      Payment amount
+     * @param string               $clientIp    User IP address
+     * @param string               $url         back URL
+     * @param string               $templateTag Used template tag. If empty string - no template tag will be passed
+     * @param array<string, mixed> $extra       Payture none requirement extra fields
+     * @param SessionType          $sessionType
+     * @param string               $product
      *
      * @throws TransportException
      */
@@ -54,22 +54,22 @@ interface PaytureInPayTerminalInterface
     /**
      * @see https://payture.com/api#inpay_unblock_
      *
-     * @param string $orderId Payment ID in Merchant system
-     * @param int    $amount  Amount in kopecks that is to be returned
+     * @param string $order_id Payment ID in Merchant system
+     * @param int    $amount   Amount in kopecks that is to be returned
      *
      * @throws TransportException
      */
-    public function unblock(string $orderId, int $amount): TerminalResponse;
+    public function unblock(string $order_id, int $amount): TerminalResponse;
 
     /**
      * @see https://payture.com/api#inpay_charge_
      *
-     * @param string $orderId Payment ID in Merchant system
-     * @param int    $amount  Charging amount in kopecks
+     * @param string $order_id Payment ID in Merchant system
+     * @param int    $amount   Charging amount in kopecks
      *
      * @throws TransportException
      */
-    public function charge(string $orderId, int $amount): TerminalResponse;
+    public function charge(string $order_id, int $amount): TerminalResponse;
 
     /**
      * The request is used both in one-step and two-step payment schemes.

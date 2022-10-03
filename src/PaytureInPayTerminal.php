@@ -80,17 +80,17 @@ final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
     /**
      * @see https://payture.com/api#inpay_charge_
      *
-     * @param string $orderId Payment ID in Merchant system
-     * @param int    $amount  Charging amount in kopecks
+     * @param string $order_id Payment ID in Merchant system
+     * @param int    $amount   Charging amount in kopecks
      *
      * @throws TransportException
      */
-    public function charge(string $orderId, int $amount): TerminalResponse
+    public function charge(string $order_id, int $amount): TerminalResponse
     {
         $data = [
             'Key'      => $this->config->getKey(),
             'Password' => $this->config->getPassword(),
-            'OrderId'  => $orderId,
+            'OrderId'  => $order_id,
             'Amount'   => $amount,
         ];
 
@@ -102,17 +102,17 @@ final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
      *
      * @see https://payture.com/api#inpay_unblock_
      *
-     * @param string $orderId Payment ID in Merchant system
-     * @param int    $amount  Amount in kopecks that is to be returned
+     * @param string $order_id Payment ID in Merchant system
+     * @param int    $amount   Amount in kopecks that is to be returned
      *
      * @throws TransportException
      */
-    public function unblock(string $orderId, int $amount): TerminalResponse
+    public function unblock(string $order_id, int $amount): TerminalResponse
     {
         $data = [
             'Key'      => $this->config->getKey(),
             'Password' => $this->config->getPassword(),
-            'OrderId'  => $orderId,
+            'OrderId'  => $order_id,
             'Amount'   => $amount,
         ];
 

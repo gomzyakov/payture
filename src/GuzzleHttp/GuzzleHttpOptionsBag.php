@@ -12,19 +12,22 @@ use function count;
 
 final class GuzzleHttpOptionsBag
 {
-    private static $requestOptions;
-
-    private static $operations;
+    private static array $requestOptions;
 
     /**
-     * @var array[]
+     * @var string[]
      */
-    private $optionsPerOperation;
+    private static array $operations;
 
     /**
-     * @var array
+     * @var array<string, mixed>
      */
-    private $options;
+    private array $optionsPerOperation;
+
+    /**
+     * @var array<string, mixed>
+     */
+    private array $options;
 
     public function __construct(array $options = [], array $optionsPerOperation = [])
     {
@@ -51,7 +54,7 @@ final class GuzzleHttpOptionsBag
     private static function getAvailableOperations(): array
     {
         if (self::$operations === null) {
-            self::$operations = PaytureOperation::getConstList();
+            self::$operations = PaytureOperation::cases();
         }
 
         return self::$operations;

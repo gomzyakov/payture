@@ -9,7 +9,7 @@ interface TransportInterface
     /**
      * @param PaytureOperation $operation
      * @param string           $interface
-     * @param array            $parameters
+     * @param array<mixed>     $parameters
      *
      * @throws TransportException
      */
