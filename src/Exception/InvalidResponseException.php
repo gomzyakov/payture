@@ -2,9 +2,6 @@
 
 namespace Gomzyakov\Payture\InPayClient\Exception;
 
-/**
- * @codeCoverageIgnore
- */
 final class InvalidResponseException extends TransportException
 {
     private const MESSAGE_PREFIX = 'Invalid gateway response: ';

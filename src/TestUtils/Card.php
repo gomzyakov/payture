@@ -2,9 +2,6 @@
 
 namespace Gomzyakov\Payture\InPayClient\TestUtils;
 
-/**
- * @codeCoverageIgnore
- */
 final class Card
 {
     /**

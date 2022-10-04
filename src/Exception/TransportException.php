@@ -5,9 +5,6 @@ namespace Gomzyakov\Payture\InPayClient\Exception;
 use Exception;
 use Throwable;
 
-/**
- * @codeCoverageIgnore
- */
 class TransportException extends Exception
 {
     public static function becauseUnderlyingTransportFailed(Throwable $exception): self
