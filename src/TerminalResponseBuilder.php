@@ -5,9 +5,6 @@ namespace Gomzyakov\Payture\InPayClient;
 use Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException;
 use SimpleXMLElement;
 
-/**
- * @internal
- */
 final class TerminalResponseBuilder
 {
     /**
