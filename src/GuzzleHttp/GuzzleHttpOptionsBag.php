@@ -9,10 +9,8 @@ use Gomzyakov\Payture\InPayClient\PaytureOperation;
  */
 final class GuzzleHttpOptionsBag
 {
-    private static ?array $requestOptions = null;
-
     /**
-     * @var array<string, mixed>
+     * @var array<string, array<string, mixed>>
      */
     private array $optionsPerOperation;
 
@@ -21,12 +19,21 @@ final class GuzzleHttpOptionsBag
      */
     private array $options;
 
+    /**
+     * @param array<string, mixed>                $options
+     * @param array<string, array<string, mixed>> $optionsPerOperation
+     */
     public function __construct(array $options = [], array $optionsPerOperation = [])
     {
         $this->options             = $options;
         $this->optionsPerOperation = $optionsPerOperation;
     }
 
+    /**
+     * @param PaytureOperation $operation
+     *
+     * @return array<string, mixed>
+     */
     public function getOperationOptions(PaytureOperation $operation): array
     {
         return array_merge(
