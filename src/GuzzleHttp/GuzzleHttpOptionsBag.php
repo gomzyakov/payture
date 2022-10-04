@@ -10,6 +10,9 @@ use InvalidArgumentException;
 
 use function count;
 
+/**
+ * @deprecated
+ */
 final class GuzzleHttpOptionsBag
 {
     private static array $requestOptions;

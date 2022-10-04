@@ -4,23 +4,24 @@ namespace Gomzyakov\Payture\InPayClient\TestUtils;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
 use DOMDocument;
 use DOMXPath;
+use LogicException;
+use DOMNodeList;
+use DOMNode;
 
 use function json_decode;
 
-/**
- * @codeCoverageIgnore
- */
 final class PaymentHelper extends Assert
 {
     /**
      * @var ClientInterface
      */
-    private $client;
+    private ClientInterface $client;
 
     public function __construct(ClientInterface $client)
     {
@@ -34,7 +35,7 @@ final class PaymentHelper extends Assert
      * @param Card   $card
      * @param string $sandboxUrl
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     public function pay(
         string $orderNr,
@@ -57,6 +58,11 @@ final class PaymentHelper extends Assert
         );
     }
 
+    /**
+     * @param Card $card
+     *
+     * @return array<string, mixed>
+     */
     private static function formatCard(Card $card): array
     {
         return [
@@ -68,9 +74,18 @@ final class PaymentHelper extends Assert
         ];
     }
 
+    /**
+     * @param ResponseInterface $response
+     *
+     * @return void
+     */
     private static function assertPaytureAcceptedCard(ResponseInterface $response): void
     {
         $body = json_decode($response->getBody(), true);
+
+        if (! is_array($body)) {
+            throw new LogicException('Can`t decode JSON-string');
+        }
 
         self::assertEquals(200, $response->getStatusCode(), 'Wrong status code.');
         self::assertEquals('application/json', $response->getHeaderLine('Content-Type'), 'Wrong content.');
@@ -81,7 +96,7 @@ final class PaymentHelper extends Assert
      * @param string[]          $names
      * @param ResponseInterface $response
      *
-     * @return string[]
+     * @return array<string, string|null>
      */
     private static function getInputValues(ResponseInterface $response, array $names): array
     {
@@ -96,7 +111,16 @@ final class PaymentHelper extends Assert
             function (string $name) use ($xpath) {
                 $values = $xpath->query('//input[@name="' . $name . '"]/@value');
 
-                return $values->item(0)->nodeValue;
+                if (! $values instanceof DOMNodeList) {
+                    throw new LogicException('ddd');
+                }
+
+                $item = $values->item(0);
+                if (! $item instanceof DOMNode) {
+                    throw new LogicException('ddd');
+                }
+
+                return $item->nodeValue;
             },
             $names
         );
@@ -105,11 +129,11 @@ final class PaymentHelper extends Assert
     }
 
     /**
-     * @param string $paymentUrl
-     * @param string $sandboxUrl
-     * @param array  $data
+     * @param string               $paymentUrl
+     * @param string               $sandboxUrl
+     * @param array<string, mixed> $data
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws GuzzleException
      */
     private function sendPayment(string $paymentUrl, string $sandboxUrl, array $data): void
     {

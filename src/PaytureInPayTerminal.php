@@ -31,16 +31,19 @@ final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
     /**
      * @see https://payture.com/api#inpay_init_
      *
-     * @param string      $orderId     Payment ID in Merchant system
-     * @param int         $amount      Payment amount
-     * @param string      $clientIp    User IP address
-     * @param string      $url         back URL
-     * @param string      $templateTag Used template tag. If empty string - no template tag will be passed
-     * @param array       $extra       Payture none requirement extra fields
-     * @param SessionType $sessionType
-     * @param string      $product
+     * @param SessionType          $sessionType
+     * @param string               $orderId     Payment ID in Merchant system
+     * @param string               $product
+     * @param int                  $amount      Payment amount
+     * @param string               $clientIp    User IP address
+     * @param string               $url         back URL
+     * @param string               $templateTag Used template tag. If empty string - no template tag will be passed
+     * @param array<string, mixed> $extra       Payture none requirement extra fields
      *
+     * @throws InvalidResponseException
      * @throws TransportException
+     *
+     * @return TerminalResponse
      */
     public function init(
         SessionType $sessionType,
@@ -198,14 +201,12 @@ final class PaytureInPayTerminal implements PaytureInPayTerminalInterface
                 return 'Block';
         }
 
-        // @codeCoverageIgnoreStart
         throw new LogicException('Unknown session type');
-        // @codeCoverageIgnoreEnd
     }
 
     /**
-     * @param PaytureOperation $operation
-     * @param array            $parameters
+     * @param PaytureOperation     $operation
+     * @param array<string, mixed> $parameters
      *
      * @throws InvalidResponseException
      * @throws TransportException

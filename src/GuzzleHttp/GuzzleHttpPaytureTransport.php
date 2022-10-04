@@ -16,12 +16,12 @@ final class GuzzleHttpPaytureTransport implements TransportInterface
     /**
      * @var ClientInterface
      */
-    private $client;
+    private ClientInterface $client;
 
     /**
      * @var TerminalConfiguration
      */
-    private $config;
+    private TerminalConfiguration $config;
 
     /**
      * @var LoggerInterface|null
@@ -31,13 +31,13 @@ final class GuzzleHttpPaytureTransport implements TransportInterface
     /**
      * @var GuzzleHttpOptionsBag
      */
-    private $optionsBag;
+    private GuzzleHttpOptionsBag $optionsBag;
 
     /**
-     * @param GuzzleHttpOptionsBag  $optionsBag
-     * @param ClientInterface       $client
-     * @param TerminalConfiguration $config
-     * @param LoggerInterface|null  $logger
+     * @param ClientInterface           $client
+     * @param TerminalConfiguration     $config
+     * @param GuzzleHttpOptionsBag|null $optionsBag
+     * @param LoggerInterface|null      $logger
      */
     public function __construct(
         ClientInterface $client,
@@ -56,15 +56,17 @@ final class GuzzleHttpPaytureTransport implements TransportInterface
      */
     public function request(PaytureOperation $operation, string $interface, array $parameters): string
     {
-        $this->logger->info(
-            'Executing Payture InPay operation',
-            [
-                'interface'  => $interface,
-                'url'        => $this->config->getUrl(),
-                'operation'  => (string) $operation,
-                'url_params' => $parameters,
-            ]
-        );
+        if ($this->logger instanceof LoggerInterface) {
+            $this->logger->info(
+                'Executing Payture InPay operation',
+                [
+                    'interface'  => $interface,
+                    'url'        => $this->config->getUrl(),
+                    'operation'  => $operation->name,
+                    'url_params' => $parameters,
+                ]
+            );
+        }
 
         try {
             return $this->client->request(

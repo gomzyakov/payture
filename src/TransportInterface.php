@@ -7,9 +7,9 @@ use Gomzyakov\Payture\InPayClient\Exception\TransportException;
 interface TransportInterface
 {
     /**
-     * @param PaytureOperation $operation
-     * @param string           $interface
-     * @param array<mixed>     $parameters
+     * @param PaytureOperation     $operation
+     * @param string               $interface
+     * @param array<string, mixed> $parameters
      *
      * @throws TransportException
      */
