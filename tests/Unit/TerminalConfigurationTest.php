@@ -14,12 +14,12 @@ final class TerminalConfigurationTest extends TestCase
 {
     public function test_valid_config(): void
     {
-        $config = new TerminalConfiguration('secret', 'pass', 'http://nowhere.payture.com');
+        $config = new TerminalConfiguration('secret', 'pass', 'https://nowhere.payture.com');
 
         $this->assertInstanceOf(TerminalConfiguration::class, $config);
 
         $this->assertEquals('secret', $config->getKey());
-        $this->assertEquals('http://nowhere.payture.com/', $config->getUrl());
+        $this->assertEquals('https://nowhere.payture.com/', $config->getUrl());
         $this->assertEquals('pass', $config->getPassword());
     }
 
@@ -87,12 +87,14 @@ final class TerminalConfigurationTest extends TestCase
      *
      * @param PaytureOperation $operation
      * @param array            $parameters
-     * @param string           $expectedUrl
+     * @param string           $expected_url
      */
-    public function test_building_operation_url(PaytureOperation $operation, array $parameters, string $expectedUrl): void
+    public function test_building_operation_url(PaytureOperation $operation, array $parameters, string $expected_url): void
     {
         $configuration = new TerminalConfiguration('MerchantKey', 'MerchantPassword', 'https://nowhere.payture.com/');
-        self::assertSame($expectedUrl, $configuration->buildOperationUrl($operation, 'apim', $parameters));
+        $url           = $configuration->buildOperationUrl($operation, 'apim', $parameters);
+
+        self::assertSame($expected_url, $url);
     }
 
     public function getOperationUrlProviders(): array

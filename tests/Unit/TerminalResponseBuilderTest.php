@@ -134,35 +134,27 @@ final class TerminalResponseBuilderTest extends TestCase
         ];
     }
 
-    /**
-     * @expectedException \InvalidResponseException
-     */
     public function test_builder_throws_exception_for_invalid_xml(): void
     {
+        $this->expectException(InvalidResponseException::class);
         TerminalResponseBuilder::parseTransportResponse('Definitely not an XML string', PaytureOperation::Init);
     }
 
-    /**
-     * @expectedException \InvalidResponseException
-     */
     public function test_builder_throws_exception_for_operation_mismatch(): void
     {
+        $this->expectException(InvalidResponseException::class);
         TerminalResponseBuilder::parseTransportResponse('<Charge Success="True"/>', PaytureOperation::Init);
     }
 
-    /**
-     * @expectedException \InvalidResponseException
-     */
     public function test_build_throws_exception_if_no_attribute_defined(): void
     {
+        $this->expectException(InvalidResponseException::class);
         TerminalResponseBuilder::parseTransportResponse('<Charge/>', PaytureOperation::Charge);
     }
 
-    /**
-     * @expectedException \InvalidResponseException
-     */
     public function test_build_throws_exception_if_no_success_attribute_defined(): void
     {
+        $this->expectException(InvalidResponseException::class);
         TerminalResponseBuilder::parseTransportResponse('<Charge Amount="10000"/>', PaytureOperation::Charge);
     }
 }

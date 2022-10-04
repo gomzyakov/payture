@@ -112,12 +112,12 @@ final class PaymentHelper extends Assert
                 $values = $xpath->query('//input[@name="' . $name . '"]/@value');
 
                 if (! $values instanceof DOMNodeList) {
-                    throw new LogicException('ddd');
+                    throw new LogicException('Not instance of DOMNodeList');
                 }
 
                 $item = $values->item(0);
                 if (! $item instanceof DOMNode) {
-                    throw new LogicException('ddd');
+                    throw new LogicException('Not instance of DOMNode');
                 }
 
                 return $item->nodeValue;

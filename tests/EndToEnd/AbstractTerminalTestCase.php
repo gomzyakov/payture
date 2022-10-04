@@ -25,16 +25,21 @@ abstract class AbstractTerminalTestCase extends TestCase
     private const ENV_PASSWORD = 'PAYTURE_TEST_MERCHANT_PASSWORD';
 
     /**
-     * @var PaytureInPayTerminalInterface
+     * @var PaytureInPayTerminal
      */
-    private $terminal;
+    private PaytureInPayTerminal $terminal;
 
     /**
      * @var PaymentHelper
      */
-    private $helper;
+    private PaymentHelper $helper;
 
-    public function setUp()
+    /**
+     * TODO Set up ENV_KEY & ENV_PASSWORD.
+     *
+     * @return void
+     */
+    protected function setUp(): void
     {
         if (getenv(self::ENV_KEY) === false || getenv(self::ENV_PASSWORD) === false) {
             self::markTestSkipped(

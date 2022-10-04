@@ -4,8 +4,6 @@ namespace Gomzyakov\Payture\InPayClient;
 
 use Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException;
 use SimpleXMLElement;
-use LogicException;
-use Exception;
 
 /**
  * @internal
@@ -24,7 +22,7 @@ final class TerminalResponseBuilder
         string $transport_response,
         PaytureOperation $operation
     ): TerminalResponse {
-        $attributes = self::parseAttributesFromXmlResponse($transport_response, self::mapOperationToRootNode($operation));
+        $attributes = self::parseAttributesFromXmlResponse($transport_response, $operation->name);
 
         // TODO Этой проверки быть не должно
         if (! isset($attributes['Success']) || ! is_string($attributes['Success'])) {
@@ -89,40 +87,5 @@ final class TerminalResponseBuilder
         }
 
         return $data['@attributes'];
-    }
-
-    /**
-     * @param PaytureOperation $operation
-     *
-     * @throws Exception
-     *
-     * @return string
-     *
-     * @deprecated
-     *
-     * TODO _toString
-     */
-    private static function mapOperationToRootNode(PaytureOperation $operation): string
-    {
-        switch ($operation) {
-            case PaytureOperation::Pay:
-                throw new Exception('To be implemented'); // TODO Realize
-            case PaytureOperation::Init:
-                return 'Init';
-            case  PaytureOperation::Charge:
-                return 'Charge';
-            case  PaytureOperation::Unblock:
-                return 'Unblock';
-            case  PaytureOperation::Refund:
-                return 'Refund';
-            case  PaytureOperation::PayStatus:
-                return 'PayStatus';
-            case PaytureOperation::GetState:
-                return 'GetState';
-        }
-
-        //@codeCoverageIgnoreStart
-        throw new LogicException('Unknown operation');
-        //@codeCoverageIgnoreEnd
     }
 }

@@ -101,7 +101,7 @@ final class TerminalResponse
      *
      * @var string|null
      */
-    private ?string $rrn;
+    private ?string $rrn = null;
 
     /**
      * Error code.

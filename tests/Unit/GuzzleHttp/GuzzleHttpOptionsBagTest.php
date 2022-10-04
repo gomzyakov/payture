@@ -23,20 +23,4 @@ final class GuzzleHttpOptionsBagTest extends TestCase
         self::assertEquals(['timeout' => 5], $bag->getOperationOptions(PaytureOperation::Charge));
         self::assertEquals(['timeout' => 15], $bag->getOperationOptions(PaytureOperation::Init));
     }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function test_invalid_option_causes_validation_exception(): void
-    {
-        new GuzzleHttpOptionsBag(['invalid option' => 5]);
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function test_invalid_operation_causes_validation_exception(): void
-    {
-        new GuzzleHttpOptionsBag([], ['Init' => ['invalid option' => 5]]);
-    }
 }

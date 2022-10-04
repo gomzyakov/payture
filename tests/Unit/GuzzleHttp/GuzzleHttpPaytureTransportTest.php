@@ -2,6 +2,7 @@
 
 namespace Gomzyakov\Payture\InPayClient\Tests\Unit\GuzzleHttp;
 
+use Gomzyakov\Payture\InPayClient\Exception\TransportException;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Psr7\Response;
@@ -36,11 +37,9 @@ final class GuzzleHttpPaytureTransportTest extends TestCase
         self::assertEquals($response, $transport->request(PaytureOperation::Init, 'apim', []));
     }
 
-    /**
-     * @expectedException \TransportException
-     */
     public function test_transport_converts_guzzle_exception_to_transport_exception(): void
     {
+        $this->expectException(TransportException::class);
         $client = $this->createMock(ClientInterface::class);
         $config = new TerminalConfiguration('MerchantKey', 'MerchantPassword', 'https://nowhere.payture.com/');
 

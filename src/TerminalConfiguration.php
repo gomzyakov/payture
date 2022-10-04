@@ -2,7 +2,6 @@
 
 namespace Gomzyakov\Payture\InPayClient;
 
-use LogicException;
 use InvalidArgumentException;
 
 final class TerminalConfiguration
@@ -22,8 +21,14 @@ final class TerminalConfiguration
      */
     private string $password;
 
+    /**
+     * @param string $key      TODO
+     * @param string $password TODO
+     * @param string $url      TODO
+     */
     public function __construct(string $key, string $password, string $url)
     {
+        // TODO Remove validation
         $this->validateKey($key);
         $this->validatePassword($password);
         $this->validateUrl($url);
@@ -31,11 +36,6 @@ final class TerminalConfiguration
         $this->key      = $key;
         $this->password = $password;
         $this->url      = $this->normalizeUrl($url);
-    }
-
-    public function getUrl(): string
-    {
-        return $this->url;
     }
 
     public function getKey(): string
@@ -46,6 +46,11 @@ final class TerminalConfiguration
     public function getPassword(): string
     {
         return $this->password;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
     }
 
     /**
@@ -59,46 +64,12 @@ final class TerminalConfiguration
      */
     public function buildOperationUrl(PaytureOperation $operation, string $interface, array $parameters): string
     {
-        return $this->getUrl() . $interface .
-            '/' . self::mapOperationToPath($operation) . '?' . http_build_query($parameters);
+        return $this->getUrl() . $interface . '/' . $operation->name . '?' . http_build_query($parameters);
     }
 
     public function normalizeUrl(string $url): string
     {
-        return rtrim($url, '/') . 'TerminalConfiguration.php/';
-    }
-
-    /**
-     * TODO _toString.
-     *
-     * @deprecated
-     *
-     * @param PaytureOperation $operation
-     *
-     * @return string
-     */
-    private static function mapOperationToPath(PaytureOperation $operation): string
-    {
-        switch ($operation) {
-            case PaytureOperation::Init:
-                return 'Init';
-            case PaytureOperation::Pay:
-                return 'Pay';
-            case  PaytureOperation::Charge:
-                return 'Charge';
-            case  PaytureOperation::Unblock:
-                return 'Unblock';
-            case  PaytureOperation::Refund:
-                return 'Refund';
-            case  PaytureOperation::PayStatus:
-                return 'PayStatus';
-            case  PaytureOperation::GetState:
-                return 'GetState';
-        }
-
-        // @codeCoverageIgnoreStart
-        throw new LogicException('Unknown operation');
-        // @codeCoverageIgnoreEnd
+        return rtrim($url, '/') . '/';
     }
 
     private function validateKey(string $key): void

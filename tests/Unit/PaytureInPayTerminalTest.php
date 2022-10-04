@@ -14,16 +14,16 @@ use PHPUnit\Framework\TestCase;
  */
 final class PaytureInPayTerminalTest extends TestCase
 {
-    private $config;
+    private TerminalConfiguration $config;
 
     private $transport;
 
     /**
      * @var PaytureInPayTerminal
      */
-    private $terminal;
+    private PaytureInPayTerminal $terminal;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->config    = new TerminalConfiguration('MerchantKey', 'MerchantPassword', 'https://nowhere.payture.com/');
         $this->transport = $this->createMock(TransportInterface::class);
@@ -69,7 +69,7 @@ final class PaytureInPayTerminalTest extends TestCase
         self::assertEquals('external-id', $response->getSessionId());
     }
 
-    public function getInitSessionTypes()
+    public function getInitSessionTypes(): array
     {
         return [
             [
