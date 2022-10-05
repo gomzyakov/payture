@@ -6,6 +6,7 @@ Simple PHP client for [Payture InPay API](https://payture.com/en/api/#inpay_).
 gateway web page and all required data security is provided by Payture, saving Merchant efforts and expenses related
 to card information protection.
 
+![](https://img.shields.io/github/v/release/gomzyakov/payture)
 [![codecov](https://codecov.io/gh/gomzyakov/payture/branch/main/graph/badge.svg?token=Pl2pgKZ5os)](https://codecov.io/gh/gomzyakov/payture)
 
 ## Installation
