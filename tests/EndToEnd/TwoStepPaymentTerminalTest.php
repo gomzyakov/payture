@@ -1,9 +1,9 @@
 <?php
 
-namespace Gomzyakov\Payture\InPayClient\Tests\EndToEnd;
+namespace Tests\EndToEnd;
 
-use Gomzyakov\Payture\InPayClient\SessionType;
-use Gomzyakov\Payture\InPayClient\TerminalResponse;
+use Gomzyakov\Payture\SessionType;
+use Gomzyakov\Payture\TerminalResponse;
 
 /**
  * @coversNothing

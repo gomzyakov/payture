@@ -38,13 +38,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Gomzyakov\\Payture\\InPayClient\\": "./src/"
+            "Gomzyakov\\Payture\\": "./src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/",
-            "Gomzyakov\\Payture\\InPayClient\\Tests\\": "./tests/"
+            "Tests\\": "./tests/"
         }
     },
     "scripts": {

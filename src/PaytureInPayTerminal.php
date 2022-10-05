@@ -1,9 +1,9 @@
 <?php
 
-namespace Gomzyakov\Payture\InPayClient;
+namespace Gomzyakov\Payture;
 
-use Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException;
-use Gomzyakov\Payture\InPayClient\Exception\TransportException;
+use Gomzyakov\Payture\Exception\InvalidResponseException;
+use Gomzyakov\Payture\Exception\TransportException;
 use LogicException;
 
 use function count;

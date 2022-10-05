@@ -1,12 +1,12 @@
 <?php
 
-namespace Gomzyakov\Payture\InPayClient\Tests\Unit;
+namespace Tests\Unit;
 
-use Gomzyakov\Payture\InPayClient\TerminalResponse;
+use Gomzyakov\Payture\TerminalResponse;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Gomzyakov\Payture\InPayClient\TerminalResponse
+ * @covers \Gomzyakov\Payture\TerminalResponse
  */
 final class TerminalResponseTest extends TestCase
 {

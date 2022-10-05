@@ -1,8 +1,8 @@
 <?php
 
-namespace Gomzyakov\Payture\InPayClient\GuzzleHttp;
+namespace Gomzyakov\Payture\GuzzleHttp;
 
-use Gomzyakov\Payture\InPayClient\PaytureOperation;
+use Gomzyakov\Payture\PaytureOperation;
 
 /**
  * @deprecated

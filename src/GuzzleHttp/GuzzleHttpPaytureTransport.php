@@ -1,13 +1,13 @@
 <?php
 
-namespace Gomzyakov\Payture\InPayClient\GuzzleHttp;
+namespace Gomzyakov\Payture\GuzzleHttp;
 
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
-use Gomzyakov\Payture\InPayClient\Exception\TransportException;
-use Gomzyakov\Payture\InPayClient\PaytureOperation;
-use Gomzyakov\Payture\InPayClient\TerminalConfiguration;
-use Gomzyakov\Payture\InPayClient\TransportInterface;
+use Gomzyakov\Payture\Exception\TransportException;
+use Gomzyakov\Payture\PaytureOperation;
+use Gomzyakov\Payture\TerminalConfiguration;
+use Gomzyakov\Payture\TransportInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 

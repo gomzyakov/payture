@@ -1,14 +1,14 @@
 <?php
 
-namespace Gomzyakov\Payture\InPayClient\Tests\EndToEnd;
+namespace Tests\EndToEnd;
 
 use GuzzleHttp\Client;
-use Gomzyakov\Payture\InPayClient\GuzzleHttp\GuzzleHttpPaytureTransport;
-use Gomzyakov\Payture\InPayClient\PaytureInPayTerminal;
-use Gomzyakov\Payture\InPayClient\PaytureInPayTerminalInterface;
-use Gomzyakov\Payture\InPayClient\TerminalConfiguration;
-use Gomzyakov\Payture\InPayClient\TestUtils\Card;
-use Gomzyakov\Payture\InPayClient\TestUtils\PaymentHelper;
+use Gomzyakov\Payture\GuzzleHttp\GuzzleHttpPaytureTransport;
+use Gomzyakov\Payture\PaytureInPayTerminal;
+use Gomzyakov\Payture\PaytureInPayTerminalInterface;
+use Gomzyakov\Payture\TerminalConfiguration;
+use Gomzyakov\Payture\TestUtils\Card;
+use Gomzyakov\Payture\TestUtils\PaymentHelper;
 use PHPUnit\Framework\TestCase;
 use DateTime;
 use Exception;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gomzyakov\Payture\InPayClient\Exception;
+namespace Gomzyakov\Payture\Exception;
 
 final class InvalidResponseException extends TransportException
 {

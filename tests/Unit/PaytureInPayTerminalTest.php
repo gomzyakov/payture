@@ -1,16 +1,17 @@
 <?php
 
-namespace Gomzyakov\Payture\InPayClient\Tests\Unit;
+namespace Tests\Unit;
 
-use Gomzyakov\Payture\InPayClient\PaytureInPayTerminal;
-use Gomzyakov\Payture\InPayClient\PaytureOperation;
-use Gomzyakov\Payture\InPayClient\SessionType;
-use Gomzyakov\Payture\InPayClient\TerminalConfiguration;
-use Gomzyakov\Payture\InPayClient\TransportInterface;
+use Gomzyakov\Payture\Exception\TransportException;
+use Gomzyakov\Payture\PaytureInPayTerminal;
+use Gomzyakov\Payture\PaytureOperation;
+use Gomzyakov\Payture\SessionType;
+use Gomzyakov\Payture\TerminalConfiguration;
+use Gomzyakov\Payture\TransportInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Gomzyakov\Payture\InPayClient\PaytureInPayTerminal
+ * @covers \Gomzyakov\Payture\PaytureInPayTerminal
  */
 final class PaytureInPayTerminalTest extends TestCase
 {
@@ -37,7 +38,7 @@ final class PaytureInPayTerminalTest extends TestCase
      * @param SessionType $type
      * @param string      $data
      *
-     * @throws \Gomzyakov\Payture\InPayClient\Exception\TransportException
+     * @throws TransportException
      */
     public function test_payment_init(SessionType $type, string $data): void
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gomzyakov\Payture\InPayClient\TestUtils;
+namespace Gomzyakov\Payture\TestUtils;
 
 final class Card
 {

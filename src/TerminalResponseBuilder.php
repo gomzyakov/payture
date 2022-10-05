@@ -1,8 +1,8 @@
 <?php
 
-namespace Gomzyakov\Payture\InPayClient;
+namespace Gomzyakov\Payture;
 
-use Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException;
+use Gomzyakov\Payture\Exception\InvalidResponseException;
 use SimpleXMLElement;
 
 final class TerminalResponseBuilder

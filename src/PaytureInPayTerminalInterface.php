@@ -1,8 +1,8 @@
 <?php
 
-namespace Gomzyakov\Payture\InPayClient;
+namespace Gomzyakov\Payture;
 
-use Gomzyakov\Payture\InPayClient\Exception\TransportException;
+use Gomzyakov\Payture\Exception\TransportException;
 
 interface PaytureInPayTerminalInterface
 {
