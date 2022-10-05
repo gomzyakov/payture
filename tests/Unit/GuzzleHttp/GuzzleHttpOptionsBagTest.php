@@ -1,13 +1,13 @@
 <?php
 
-namespace Gomzyakov\Payture\InPayClient\Tests\Unit\GuzzleHttp;
+namespace Gomzyakov\Payture\Tests\Unit\GuzzleHttp;
 
-use Gomzyakov\Payture\InPayClient\GuzzleHttp\GuzzleHttpOptionsBag;
-use Gomzyakov\Payture\InPayClient\PaytureOperation;
+use Gomzyakov\Payture\GuzzleHttp\GuzzleHttpOptionsBag;
+use Gomzyakov\Payture\PaytureOperation;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Gomzyakov\Payture\InPayClient\GuzzleHttp\GuzzleHttpOptionsBag
+ * @covers \Gomzyakov\Payture\GuzzleHttp\GuzzleHttpOptionsBag
  */
 final class GuzzleHttpOptionsBagTest extends TestCase
 {

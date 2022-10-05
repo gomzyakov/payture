@@ -1,19 +1,19 @@
 <?php
 
-namespace Gomzyakov\Payture\InPayClient\Tests\Unit\GuzzleHttp;
+namespace Tests\Unit\GuzzleHttp;
 
-use Gomzyakov\Payture\InPayClient\Exception\TransportException;
+use Gomzyakov\Payture\Exception\TransportException;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Psr7\Response;
-use Gomzyakov\Payture\InPayClient\GuzzleHttp\GuzzleHttpPaytureTransport;
-use Gomzyakov\Payture\InPayClient\PaytureOperation;
-use Gomzyakov\Payture\InPayClient\TerminalConfiguration;
+use Gomzyakov\Payture\GuzzleHttp\GuzzleHttpPaytureTransport;
+use Gomzyakov\Payture\PaytureOperation;
+use Gomzyakov\Payture\TerminalConfiguration;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
 /**
- * @covers \Gomzyakov\Payture\InPayClient\GuzzleHttp\GuzzleHttpPaytureTransport
+ * @covers \Gomzyakov\Payture\GuzzleHttp\GuzzleHttpPaytureTransport
  */
 final class GuzzleHttpPaytureTransportTest extends TestCase
 {

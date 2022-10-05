@@ -1,14 +1,14 @@
 <?php
 
-namespace Gomzyakov\Payture\InPayClient\Tests\Unit;
+namespace Tests\Unit;
 
-use Gomzyakov\Payture\InPayClient\PaytureOperation;
-use Gomzyakov\Payture\InPayClient\TerminalConfiguration;
+use Gomzyakov\Payture\PaytureOperation;
+use Gomzyakov\Payture\TerminalConfiguration;
 use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;
 
 /**
- * @covers \Gomzyakov\Payture\InPayClient\TerminalConfiguration
+ * @covers \Gomzyakov\Payture\TerminalConfiguration
  */
 final class TerminalConfigurationTest extends TestCase
 {

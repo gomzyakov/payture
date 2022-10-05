@@ -1,15 +1,15 @@
 <?php
 
-namespace Gomzyakov\Payture\InPayClient\Tests\Unit;
+namespace Tests\Unit;
 
-use Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException;
-use Gomzyakov\Payture\InPayClient\PaytureOperation;
-use Gomzyakov\Payture\InPayClient\TerminalResponse;
-use Gomzyakov\Payture\InPayClient\TerminalResponseBuilder;
+use Gomzyakov\Payture\Exception\InvalidResponseException;
+use Gomzyakov\Payture\PaytureOperation;
+use Gomzyakov\Payture\TerminalResponse;
+use Gomzyakov\Payture\TerminalResponseBuilder;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Gomzyakov\Payture\InPayClient\TerminalResponseBuilder
+ * @covers \Gomzyakov\Payture\TerminalResponseBuilder
  */
 final class TerminalResponseBuilderTest extends TestCase
 {

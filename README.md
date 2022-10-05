@@ -19,18 +19,18 @@ composer require gomzyakov/payture
 ```php
 <?php
 
-$configuration = new \Gomzyakov\Payture\InPayClient\TerminalConfiguration(
+$configuration = new \Gomzyakov\Payture\TerminalConfiguration(
     'MerchantKey',
     'MerchantPassword',
     'https://sandbox.payture.com/'
 );
 
-$transport = new \Gomzyakov\Payture\InPayClient\GuzzleHttp\GuzzleHttpPaytureTransport(
+$transport = new \Gomzyakov\Payture\GuzzleHttp\GuzzleHttpPaytureTransport(
     new \GuzzleHttp\Client(),
     $configuration
 );
 
-$terminal = new \Gomzyakov\Payture\InPayClient\PaytureInPayTerminal($configuration, $transport);
+$terminal = new \Gomzyakov\Payture\PaytureInPayTerminal($configuration, $transport);
 
 $terminal->charge('ORDER_NUMBER_123', 100500);
 ```
@@ -39,7 +39,7 @@ $terminal->charge('ORDER_NUMBER_123', 100500);
 
 ### Client configuration
 
-You can pass 3-rd argument to the GuzzleHttpPaytureTransport with the instance of `\Gomzyakov\Payture\InPayClient\GuzzleHttp\GuzzleHttpOptionsBag`.
+You can pass 3-rd argument to the GuzzleHttpPaytureTransport with the instance of `\Gomzyakov\Payture\GuzzleHttp\GuzzleHttpOptionsBag`.
 Instance is preconfigured with guzzle `\GuzzleHttp\RequestOptions` both global (first constructor argument) and per-operation
 (second constructor argument indexed by operation name)
 

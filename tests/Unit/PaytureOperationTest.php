@@ -1,12 +1,12 @@
 <?php
 
-namespace Gomzyakov\Payture\InPayClient\Tests\Unit;
+namespace Tests\Unit;
 
-use Gomzyakov\Payture\InPayClient\PaytureOperation;
+use Gomzyakov\Payture\PaytureOperation;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Gomzyakov\Payture\InPayClient\PaytureOperation
+ * @covers \Gomzyakov\Payture\PaytureOperation
  */
 final class PaytureOperationTest extends TestCase
 {
