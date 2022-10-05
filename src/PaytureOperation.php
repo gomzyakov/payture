@@ -40,7 +40,7 @@ enum PaytureOperation
     case PayStatus;
 
     /**
-     * https://payture.com/en/api/#inpay_paystatus_
+     * https://payture.com/en/api/#inpay_paystatus_.
      */
     case GetState;
 }
