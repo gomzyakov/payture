@@ -3,8 +3,8 @@
 namespace Gomzyakov\Payture\InPayClient\Tests\Unit;
 
 use Gomzyakov\Payture\InPayClient\PaytureInPayTerminal;
-use Gomzyakov\Payture\InPayClient\PaytureOperation;
-use Gomzyakov\Payture\InPayClient\SessionType;
+use Gomzyakov\Payture\InPayClient\References\PaytureOperation;
+use Gomzyakov\Payture\InPayClient\References\SessionType;
 use Gomzyakov\Payture\InPayClient\TerminalConfiguration;
 use Gomzyakov\Payture\InPayClient\TransportInterface;
 use PHPUnit\Framework\TestCase;

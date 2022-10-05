@@ -2,7 +2,7 @@
 
 namespace Gomzyakov\Payture\InPayClient\GuzzleHttp;
 
-use Gomzyakov\Payture\InPayClient\PaytureOperation;
+use Gomzyakov\Payture\InPayClient\References\PaytureOperation;
 
 /**
  * @deprecated

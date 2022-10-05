@@ -5,7 +5,7 @@ namespace Gomzyakov\Payture\InPayClient\GuzzleHttp;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use Gomzyakov\Payture\InPayClient\Exception\TransportException;
-use Gomzyakov\Payture\InPayClient\PaytureOperation;
+use Gomzyakov\Payture\InPayClient\References\PaytureOperation;
 use Gomzyakov\Payture\InPayClient\TerminalConfiguration;
 use Gomzyakov\Payture\InPayClient\TransportInterface;
 use Psr\Log\LoggerInterface;

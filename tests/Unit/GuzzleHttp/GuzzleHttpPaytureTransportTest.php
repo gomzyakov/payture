@@ -7,7 +7,7 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Psr7\Response;
 use Gomzyakov\Payture\InPayClient\GuzzleHttp\GuzzleHttpPaytureTransport;
-use Gomzyakov\Payture\InPayClient\PaytureOperation;
+use Gomzyakov\Payture\InPayClient\References\PaytureOperation;
 use Gomzyakov\Payture\InPayClient\TerminalConfiguration;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;

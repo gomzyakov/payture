@@ -3,7 +3,7 @@
 namespace Gomzyakov\Payture\InPayClient\Tests\Unit;
 
 use Gomzyakov\Payture\InPayClient\Exception\InvalidResponseException;
-use Gomzyakov\Payture\InPayClient\PaytureOperation;
+use Gomzyakov\Payture\InPayClient\References\PaytureOperation;
 use Gomzyakov\Payture\InPayClient\TerminalResponse;
 use Gomzyakov\Payture\InPayClient\TerminalResponseBuilder;
 use PHPUnit\Framework\TestCase;

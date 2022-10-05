@@ -3,7 +3,7 @@
 namespace Gomzyakov\Payture\InPayClient\Tests\Unit\GuzzleHttp;
 
 use Gomzyakov\Payture\InPayClient\GuzzleHttp\GuzzleHttpOptionsBag;
-use Gomzyakov\Payture\InPayClient\PaytureOperation;
+use Gomzyakov\Payture\InPayClient\References\PaytureOperation;
 use PHPUnit\Framework\TestCase;
 
 /**

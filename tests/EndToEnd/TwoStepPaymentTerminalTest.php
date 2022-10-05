@@ -2,7 +2,7 @@
 
 namespace Gomzyakov\Payture\InPayClient\Tests\EndToEnd;
 
-use Gomzyakov\Payture\InPayClient\SessionType;
+use Gomzyakov\Payture\InPayClient\References\SessionType;
 use Gomzyakov\Payture\InPayClient\TerminalResponse;
 
 /**

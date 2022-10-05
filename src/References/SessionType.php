@@ -1,6 +1,6 @@
 <?php
 
-namespace Gomzyakov\Payture\InPayClient;
+namespace Gomzyakov\Payture\InPayClient\References;
 
 /**
  * Enum which determine session types in payture gateway.

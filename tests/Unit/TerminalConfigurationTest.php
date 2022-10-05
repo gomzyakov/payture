@@ -2,7 +2,7 @@
 
 namespace Gomzyakov\Payture\InPayClient\Tests\Unit;
 
-use Gomzyakov\Payture\InPayClient\PaytureOperation;
+use Gomzyakov\Payture\InPayClient\References\PaytureOperation;
 use Gomzyakov\Payture\InPayClient\TerminalConfiguration;
 use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;
