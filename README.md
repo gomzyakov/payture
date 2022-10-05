@@ -19,7 +19,6 @@ composer require gomzyakov/payture
 ```php
 <?php
 
-# Minimal initialization
 $configuration = new \Gomzyakov\Payture\InPayClient\TerminalConfiguration(
     'MerchantKey',
     'MerchantPassword',
