@@ -70,7 +70,7 @@ final class PaytureInPayTerminalTest extends TestCase
         self::assertEquals('external-id', $response->getSessionId());
     }
 
-    public function getInitSessionTypes(): array
+    public static function getInitSessionTypes(): array
     {
         return [
             [
