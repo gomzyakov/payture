@@ -31,7 +31,7 @@ final class TerminalResponseBuilderTest extends TestCase
         self::assertEquals($success, $response->isSuccess());
     }
 
-    public function getValidResponseExamples(): array
+    public static function getValidResponseExamples(): array
     {
         return [
             'Init' => [
@@ -98,7 +98,7 @@ final class TerminalResponseBuilderTest extends TestCase
         self::assertEquals($expectedValue, $response->{$accessMethod}());
     }
 
-    public function getPopulatedFieldExamples(): array
+    public static function getPopulatedFieldExamples(): array
     {
         return [
             'SessionId' => [

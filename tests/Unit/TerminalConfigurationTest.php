@@ -38,7 +38,7 @@ final class TerminalConfigurationTest extends TestCase
         new TerminalConfiguration($options['key'], $options['password'], $options['url']);
     }
 
-    public function notValidConfigVariants(): array
+    public static function notValidConfigVariants(): array
     {
         return [
             // required validation
@@ -97,7 +97,7 @@ final class TerminalConfigurationTest extends TestCase
         self::assertSame($expected_url, $url);
     }
 
-    public function getOperationUrlProviders(): array
+    public static function getOperationUrlProviders(): array
     {
         return [
             [
