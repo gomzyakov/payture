@@ -3,12 +3,12 @@
 namespace Tests\Unit\GuzzleHttp;
 
 use Gomzyakov\Payture\Exception\TransportException;
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\TransferException;
-use GuzzleHttp\Psr7\Response;
 use Gomzyakov\Payture\GuzzleHttp\GuzzleHttpPaytureTransport;
 use Gomzyakov\Payture\PaytureOperation;
 use Gomzyakov\Payture\TerminalConfiguration;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\TransferException;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 

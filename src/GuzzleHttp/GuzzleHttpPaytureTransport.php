@@ -2,12 +2,12 @@
 
 namespace Gomzyakov\Payture\GuzzleHttp;
 
-use GuzzleHttp\ClientInterface;
-use GuzzleHttp\Exception\GuzzleException;
 use Gomzyakov\Payture\Exception\TransportException;
 use Gomzyakov\Payture\PaytureOperation;
 use Gomzyakov\Payture\TerminalConfiguration;
 use Gomzyakov\Payture\TransportInterface;
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 

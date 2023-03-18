@@ -1,6 +1,6 @@
 <?php
 
-namespace Gomzyakov\Payture\Tests\Unit\GuzzleHttp;
+namespace Tests\Unit\GuzzleHttp;
 
 use Gomzyakov\Payture\GuzzleHttp\GuzzleHttpOptionsBag;
 use Gomzyakov\Payture\PaytureOperation;
