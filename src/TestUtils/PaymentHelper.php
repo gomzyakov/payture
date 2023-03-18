@@ -2,17 +2,17 @@
 
 namespace Gomzyakov\Payture\TestUtils;
 
+use DOMDocument;
+use DOMNode;
+use DOMNodeList;
+use DOMXPath;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\RequestOptions;
+use LogicException;
 use PHPUnit\Framework\Assert;
 use Psr\Http\Message\ResponseInterface;
-use DOMDocument;
-use DOMXPath;
-use LogicException;
-use DOMNodeList;
-use DOMNode;
 
 use function json_decode;
 

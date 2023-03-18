@@ -2,16 +2,16 @@
 
 namespace Tests\EndToEnd;
 
-use GuzzleHttp\Client;
+use DateTime;
+use Exception;
 use Gomzyakov\Payture\GuzzleHttp\GuzzleHttpPaytureTransport;
 use Gomzyakov\Payture\PaytureInPayTerminal;
 use Gomzyakov\Payture\PaytureInPayTerminalInterface;
 use Gomzyakov\Payture\TerminalConfiguration;
 use Gomzyakov\Payture\TestUtils\Card;
 use Gomzyakov\Payture\TestUtils\PaymentHelper;
+use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
-use DateTime;
-use Exception;
 use RuntimeException;
 
 abstract class AbstractTerminalTestCase extends TestCase
