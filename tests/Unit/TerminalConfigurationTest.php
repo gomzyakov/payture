@@ -4,8 +4,8 @@ namespace Tests\Unit;
 
 use Gomzyakov\Payture\PaytureOperation;
 use Gomzyakov\Payture\TerminalConfiguration;
-use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Gomzyakov\Payture\TerminalConfiguration
